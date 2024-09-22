@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { validate as isUuid } from 'uuid';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product } from './entities';
 import { PaginationDto } from 'src/common';
@@ -77,6 +78,30 @@ export class ProductsService {
     const find = await this.productRepository.findOneBy({ id });
     if (!find) {
       throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+    this.logger.verbose('Producto encontrado');
+    return find;
+  }
+  /**
+   * Buscar por Id o por slug
+   * @param term termino
+   * @returns {Promise<Product>}
+   */
+  async findByTerm(term: string): Promise<Product> {
+    console.log('\n term SERVICE', term, '\n');
+    let find: Product;
+    if (!term) {
+      throw new BadRequestException(`Invalid term ${term}`);
+    }
+    if (isUuid(term)) {
+      find = await this.productRepository.findOneBy({ id: term });
+    } else {
+      find = await this.productRepository.findOneBy({ slug: term });
+    }
+    if (!find) {
+      throw new NotFoundException(
+        `Product with term ->> ${term} <-- not found`,
+      );
     }
     this.logger.verbose('Producto encontrado');
     return find;

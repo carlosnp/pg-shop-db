@@ -10,6 +10,12 @@ GET http://localhost:3000/api/products/pag?limit=2
 ### Obtener un producto
 GET http://localhost:3000/api/products/16e16110-f44f-44f2-b1c0-5a97e9d8148c
 
+### Obtener un producto por termino: Uuid
+GET http://localhost:3000/api/products/term/a84af8af-54b9-4185-be9b-f5421a8e06d9
+
+### Obtener un producto por termino: slug
+GET http://localhost:3000/api/products/term/queso_mozzarella
+
 ### Eliminar un producto
 DELETE  http://localhost:3000/api/products/73e35552-f6ac-44f5-8d4e-097c73e4389b
 

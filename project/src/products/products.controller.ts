@@ -46,13 +46,27 @@ export class ProductsController {
   /**
    * Encontrar por Id
    * @param {string} id Id
-   * @returns
+   * @returns {Promise<Product>}
    */
   @Get(':id')
-  findById(@Param('id', ParseUUIDPipe) id: string) {
+  findById(@Param('id', ParseUUIDPipe) id: string): Promise<Product> {
     return this.productsService.findById(id);
   }
-
+  /**
+   * Encontrar por termino
+   * @param {string} term Termino: Uuid, slug
+   * @returns {Promise<Product>}
+   */
+  @Get('/term/:id')
+  findByTerm(@Param('id') id: string): Promise<Product> {
+    return this.productsService.findByTerm(id);
+  }
+  /**
+   * Actualizar
+   * @param id
+   * @param updateProductDto
+   * @returns
+   */
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productsService.update(+id, updateProductDto);
