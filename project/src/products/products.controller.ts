@@ -13,7 +13,11 @@ import { CreateProductDto, UpdateProductDto } from './dto';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
-
+  /**
+   * Crear un producto
+   * @param { CreateProductDto } createProductDto
+   * @returns
+   */
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);

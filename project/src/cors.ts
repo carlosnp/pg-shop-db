@@ -5,7 +5,6 @@ export const optionsCors: CorsOptions = {
     'http://localhost:3000',
     'http://localhost:4200',
     'http://localhost:5432',
-    'https://cecosistema.gitlab.io',
     /localhost([:]\d*)?$/,
     /192\.168\.\d+\.\d+([:]\d*)?$/,
   ],
