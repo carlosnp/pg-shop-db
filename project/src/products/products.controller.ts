@@ -36,8 +36,8 @@ export class ProductsController {
   }
   /**
    * Lista paginada
-   * @param {PaginationDto} pag Paginacion
-   * @returns
+   * @param {PaginationDto} pagDto Paginacion
+   * @returns {Promise<Product[]>}
    */
   @Get('/pag')
   getAllPagination(@Query() pagDto: PaginationDto): Promise<Product[]> {
@@ -72,13 +72,16 @@ export class ProductsController {
   }
   /**
    * Actualizar
-   * @param id
-   * @param updateProductDto
-   * @returns
+   * @param {string} id Id
+   * @param updateProductDto Datos del producto
+   * @returns {Promise<Product>}
    */
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ): Promise<Product> {
+    return this.productsService.update(id, updateProductDto);
   }
   /**
    * Eliminar un producto

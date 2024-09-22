@@ -29,7 +29,7 @@ GET http://localhost:3000/api/products/text/Queso telita
 DELETE  http://localhost:3000/api/products/73e35552-f6ac-44f5-8d4e-097c73e4389b
 
 ### Crear un producto
-POST http://localhost:3000/api/products HTTP/1.1
+POST http://localhost:3000/api/products
 Content-Type: application/json
 
 {
@@ -37,3 +37,17 @@ Content-Type: application/json
   "price": 8
 }
 
+### Actualizar un producto
+PATCH  http://localhost:3000/api/products/a84af8af-54b9-4185-be9b-f5421a8e06d9
+Content-Type: application/json
+{
+  "price": 10
+}
+
+### Actualizar un producto Error con el titulo
+PATCH  http://localhost:3000/api/products/a84af8af-54b9-4185-be9b-f5421a8e06d9
+Content-Type: application/json
+
+{
+  "title": "Queso telita"
+}

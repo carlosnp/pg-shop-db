@@ -88,7 +88,6 @@ export class ProductsService {
    * @returns {Promise<Product>}
    */
   async findByTerm(term: string): Promise<Product> {
-    console.log('\n term SERVICE', term, '\n');
     let find: Product;
     if (!term) {
       throw new BadRequestException(`Invalid term ${term}`);
@@ -135,9 +134,33 @@ export class ProductsService {
     this.logger.verbose('Producto encontrado');
     return find;
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  /**
+   * Actualizar un producto
+   * @param {string} id Id del producto
+   * @param {UpdateProductDto} updateProductDto Data a actualizar
+   * @returns {Promise<Product>} Producto actualizado
+   */
+  async update(
+    id: string,
+    updateProductDto: UpdateProductDto,
+  ): Promise<Product> {
+    /** Preparamos para la actualizacion */
+    const find = await this.productRepository.preload({
+      id: id,
+      ...updateProductDto,
+    });
+    /** Verificamos que exista */
+    if (!find) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+    /** Guardamos */
+    try {
+      const result = await this.productRepository.save(find);
+      this.logger.verbose('Producto actualizado');
+      return result;
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
   }
   /**
    * Eliminar un producto
