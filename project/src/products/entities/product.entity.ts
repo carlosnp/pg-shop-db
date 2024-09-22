@@ -1,4 +1,10 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { AllUnits, GenericUnit, UnitsEnum } from './units.enum';
 import { createSlug } from '../helpers';
@@ -65,5 +71,13 @@ export class Product {
     } else {
       this.slug = createSlug(this.slug);
     }
+  }
+  /**
+   * Antes de actualizar
+   */
+  @BeforeUpdate()
+  checkSlugUpdate() {
+    // Verificamos el slug
+    this.slug = createSlug(this.slug);
   }
 }
