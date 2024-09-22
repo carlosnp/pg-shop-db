@@ -12,37 +12,53 @@ import {
 import { AllUnits, UnitsEnum } from '../entities';
 
 export class CreateProductDto {
-  /** Titulo */
+  /**
+   * Titulo
+   */
   @IsString()
   @MinLength(1)
   title: string;
-  /** Precio base */
+  /**
+   * Precio base
+   */
   @IsNumber()
   @IsPositive()
   price: number;
-  /** Descripcion. Opcional */
+  /**
+   * Descripcion. Opcional
+   */
   @IsString()
   @IsOptional()
   description?: string;
-  /** Slug */
+  /**
+   * Slug
+   */
   @IsString()
   @IsOptional()
   slug?: string;
-  /** Existencias. Opcional */
+  /**
+   * Existencias. Opcional
+   */
   @IsInt()
   @IsPositive()
   @IsOptional()
   stock?: number;
-  /** Unidad del producto. Opcional */
+  /**
+   * Unidad del producto. Opcional
+   */
   @IsEnum(AllUnits)
   @IsOptional()
   unit?: UnitsEnum;
-  /** Tamaños. Opcional */
+  /**
+   * Tamaños. Opcional
+   */
   @IsString({ each: true })
   @IsArray()
   @IsOptional()
   sizes: string[];
-  /** Etiquetas. Opcional */
+  /**
+   * Etiquetas. Opcional\
+   */
   @IsString({ each: true })
   @IsArray()
   @IsOptional()

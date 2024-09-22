@@ -61,6 +61,7 @@ export class Product {
   @Column({ type: 'text', array: true, default: [] })
   tags: string[];
   /**
+   * Verifica antes de insertar un slug
    * Antes de insertar
    */
   @BeforeInsert()
@@ -71,6 +72,14 @@ export class Product {
     } else {
       this.slug = createSlug(this.slug);
     }
+  }
+  /**
+   * Elimina los tags duplicados
+   * Antes de insertar
+   */
+  @BeforeInsert()
+  uniqueTags() {
+    this.tags = [...new Set(this.tags)];
   }
   /**
    * Antes de actualizar
