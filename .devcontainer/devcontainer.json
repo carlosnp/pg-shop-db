@@ -10,7 +10,8 @@
 			"extensions": [
 				"ms-azuretools.vscode-docker",
 				"cweijan.vscode-postgresql-client2",
-				"shakram02.bash-beautify"
+				"shakram02.bash-beautify",
+				"eliostruyf.vscode-typescript-exportallmodules"
 			]
 		}
 	}
