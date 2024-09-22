@@ -7,10 +7,12 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product } from './entities';
+import { PaginationDto } from 'src/common';
 
 @Controller('products')
 export class ProductsController {
@@ -31,6 +33,15 @@ export class ProductsController {
   @Get()
   getAll(): Promise<Product[]> {
     return this.productsService.getAll();
+  }
+  /**
+   * Lista paginada
+   * @param {PaginationDto} pag Paginacion
+   * @returns
+   */
+  @Get('/pag')
+  getAllPagination(@Query() pagDto: PaginationDto): Promise<Product[]> {
+    return this.productsService.getAllPagination(pagDto);
   }
   /**
    * Encontrar por Id

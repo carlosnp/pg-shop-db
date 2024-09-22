@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PgShopModule } from './pg-shop';
 import { ProductsModule } from './products';
+import { CommonModule } from './common';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ProductsModule } from './products';
     }),
     PgShopModule,
     ProductsModule,
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [AppService],

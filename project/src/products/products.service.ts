@@ -9,6 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product } from './entities';
+import { PaginationDto } from 'src/common';
 
 @Injectable()
 export class ProductsService {
@@ -47,6 +48,21 @@ export class ProductsService {
    */
   getAll(): Promise<Product[]> {
     const list = this.productRepository.find({});
+    this.logger.verbose('Productos listados');
+    return list;
+  }
+  /**
+   * Lista paginada
+   * @param {PaginationDto} pagDto Paginacion
+   * @returns {Promise<Product[]>}
+   */
+  getAllPagination(pagDto: PaginationDto): Promise<Product[]> {
+    const { limit = 10, offset = 0 } = pagDto;
+    const list = this.productRepository.find({
+      take: limit,
+      skip: offset,
+    });
+    this.logger.verbose('Productos paginados');
     return list;
   }
   findAll() {
@@ -62,6 +78,7 @@ export class ProductsService {
     if (!find) {
       throw new NotFoundException(`Product with ID ${id} not found`);
     }
+    this.logger.verbose('Producto encontrado');
     return find;
   }
 
