@@ -8,7 +8,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product } from './entities';
-import { createSlug } from './helpers';
 
 @Injectable()
 export class ProductsService {
@@ -27,16 +26,10 @@ export class ProductsService {
   /**
    * Crear un producto
    * @param {CreateProductDto} createProductDto
-   * @returns
+   * @returns {Promise<Product>} Producto
    */
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto): Promise<Product> {
     try {
-      /** Si no tiene un slug, lo creamos */
-      if (!createProductDto.slug) {
-        const slug = createSlug(createProductDto.title);
-        this.logger.warn('Creamos el slug');
-        createProductDto.slug = slug;
-      }
       /** Creamos el producto */
       const product = this.productRepository.create(createProductDto);
       /** Guardamos el producto */

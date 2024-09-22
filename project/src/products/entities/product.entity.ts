@@ -1,38 +1,69 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 import { AllUnits, GenericUnit, UnitsEnum } from './units.enum';
+import { createSlug } from '../helpers';
 
 @Entity({ name: 'product' })
 export class Product {
-  /** Identificador */
+  /**
+   * Identificador
+   */
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  /** Titulo */
+  /**
+   * Titulo
+   */
   @Column({ type: 'text', unique: true })
   title: string;
-  /** Descripcion. Opcional */
+  /**
+   * Descripcion. Opcional
+   */
   @Column({ type: 'text', nullable: true })
   description: string;
-  /** Slug */
+  /**
+   * Slug
+   */
   @Column({ type: 'text', unique: true })
   slug: string;
-  /** Precio base */
+  /**
+   * Precio base
+   */
   @Column({ type: 'float' })
   price: number;
-  /** Existencias. Opcional */
+  /**
+   * Existencias. Opcional
+   */
   @Column({ type: 'int', default: 0 })
   stock: number;
-  /** Unidad del producto. Opcional */
+  /**
+   * Unidad del producto. Opcional\
+   */
   @Column({
     type: 'enum',
     enum: Object.values(AllUnits),
     default: GenericUnit.Unit,
   })
   unit: UnitsEnum;
-  /** Tamaños. Opcional */
+  /**
+   * Tamaños. Opcional
+   */
   @Column({ type: 'text', array: true, default: [] })
   sizes: string[];
-  /** Etiquetas. Opcional */
+  /**
+   * Etiquetas. Opcional
+   */
   @Column({ type: 'text', array: true, default: [] })
   tags: string[];
+  /**
+   * Antes de insertar
+   */
+  @BeforeInsert()
+  checkSlugInsert() {
+    // Si no existe el slug, lo creamos. Si existe lo pasamos igual por las reglas
+    if (!this.slug) {
+      this.slug = createSlug(this.title);
+    } else {
+      this.slug = createSlug(this.slug);
+    }
+  }
 }
