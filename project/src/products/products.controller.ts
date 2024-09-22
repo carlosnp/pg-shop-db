@@ -54,12 +54,21 @@ export class ProductsController {
   }
   /**
    * Encontrar por termino
-   * @param {string} term Termino: Uuid, slug
+   * @param {string} id Termino: Uuid, slug
    * @returns {Promise<Product>}
    */
   @Get('/term/:id')
   findByTerm(@Param('id') id: string): Promise<Product> {
     return this.productsService.findByTerm(id);
+  }
+  /**
+   * Encontrar usando un texto
+   * @param {string} id texto: Uuid, slug, titulo
+   * @returns {Promise<Product>}
+   */
+  @Get('/text/:id')
+  findByQuery(@Param('id') id: string): Promise<Product> {
+    return this.productsService.findByQuery(id);
   }
   /**
    * Actualizar

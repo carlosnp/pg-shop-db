@@ -106,7 +106,35 @@ export class ProductsService {
     this.logger.verbose('Producto encontrado');
     return find;
   }
-
+  /**
+   * Encontrar usando queryuilder
+   * @param term termino
+   * @returns {Promise<Product>}
+   */
+  async findByQuery(term: string): Promise<Product> {
+    let find: Product;
+    if (!term) {
+      throw new BadRequestException(`Invalid term ${term}`);
+    }
+    if (isUuid(term)) {
+      find = await this.productRepository.findOneBy({ id: term });
+    } else {
+      const queryBuilder = this.productRepository.createQueryBuilder();
+      find = await queryBuilder
+        .where('UPPER(title) =:title or slug =:slug', {
+          title: term.toUpperCase(),
+          slug: term.toLocaleLowerCase(),
+        })
+        .getOne();
+    }
+    if (!find) {
+      throw new NotFoundException(
+        `Product with term ->> ${term} <-- not found`,
+      );
+    }
+    this.logger.verbose('Producto encontrado');
+    return find;
+  }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   update(id: number, updateProductDto: UpdateProductDto) {
     return `This action updates a #${id} product`;
