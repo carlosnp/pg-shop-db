@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from './dto';
-import { Product } from './entities';
+import { ComparisonOperator, Product } from './entities';
 import { PaginationDto } from 'src/common';
 
 @Controller('products')
@@ -42,6 +42,30 @@ export class ProductsController {
   @Get('/pag')
   getAllPagination(@Query() pagDto: PaginationDto): Promise<Product[]> {
     return this.productsService.getAllPagination(pagDto);
+  }
+  /**
+   * Encontrar por titulo
+   * @param {string} title Titulo
+   * @returns {Promise<Product[]>}
+   */
+  @Get('by-title') findBytitle(
+    @Query('title') title: string,
+  ): Promise<Product[]> {
+    const products = this.productsService.findByTitle(title);
+    return products;
+  }
+  /**
+   * Obtener productos por precio
+   * @param {number} price Precio
+   * @param {ComparisonOperator} operator Operador
+   * @returns {Promise<Product[]>}
+   */
+  @Get('by-price') findByPrice(
+    @Query('price') price: number,
+    @Query('operator') operator: ComparisonOperator,
+  ): Promise<Product[]> {
+    const products = this.productsService.findProductsByPrice(price, operator);
+    return products;
   }
   /**
    * Encontrar por Id

@@ -7,6 +7,12 @@ GET http://localhost:3000/api/products
 ### Lista paginada de productos
 GET http://localhost:3000/api/products/pag?limit=2
 
+### Lista filtrada de productos por titulo
+GET http://localhost:3000/api/products/by-title?title=jamon
+
+### Lista filtrada de productos por precio
+GET http://localhost:3000/api/products/by-price?price=10&operator=GT
+
 ### Obtener un producto
 GET http://localhost:3000/api/products/16e16110-f44f-44f2-b1c0-5a97e9d8148c
 

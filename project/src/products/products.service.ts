@@ -6,11 +6,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { validate as isUuid } from 'uuid';
 import { CreateProductDto, UpdateProductDto } from './dto';
-import { Product } from './entities';
+import { ComparisonOperator, Product } from './entities';
 import { PaginationDto } from 'src/common';
+import { buildComparator } from './helpers';
 
 @Injectable()
 export class ProductsService {
@@ -104,6 +105,32 @@ export class ProductsService {
     }
     this.logger.verbose('Producto encontrado');
     return find;
+  }
+  /**
+   * Lista todos por titulo
+   * @param title Titulo
+   * @returns {Promise<Product[]>}
+   */
+  async findByTitle(title: string): Promise<Product[]> {
+    return await this.productRepository.find({
+      where: { title: ILike(`%${title.toLowerCase()}%`) },
+    });
+  }
+  /**
+   * Encuentra productos por precio
+   * @param {number} price precio
+   * @param {ComparisonOperator} operator operador
+   * @returns {Promise<Product[]>} Lista de prodcutos
+   */
+  async findProductsByPrice(
+    price: number,
+    operator: ComparisonOperator,
+  ): Promise<Product[]> {
+    const whereCondition = buildComparator(price, operator, 'price');
+    const result = await this.productRepository.find({
+      where: { ...whereCondition },
+    });
+    return result;
   }
   /**
    * Encontrar usando queryuilder
