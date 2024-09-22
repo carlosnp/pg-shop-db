@@ -23,6 +23,9 @@
 		},
 		"[json]": {
 			"editor.tabSize": 2,
-		},
+    },
+    "exportall.config.folderListener": [
+      "/project/src/products"
+    ],
 	}
 }

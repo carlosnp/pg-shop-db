@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PgShopModule } from './pg-shop/pg-shop.module';
-import { ConfigModule } from '@nestjs/config';
+import { PgShopModule } from './pg-shop';
+import { ProductsModule } from './products';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
     }),
     PgShopModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
