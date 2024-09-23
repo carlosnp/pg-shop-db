@@ -3,10 +3,12 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { generateSlug } from 'src/common';
 import { AllUnits, GenericUnit, UnitsEnum } from './units.enum';
+import { ProductImage } from './product-image.entity';
 
 @Entity({ name: 'product' })
 export class Product {
@@ -64,6 +66,11 @@ export class Product {
    */
   @Column({ type: 'text', array: true, default: [] })
   tags: string[];
+  /**
+   * Images de un producto
+   */
+  @OneToMany(() => ProductImage, (img) => img.product, { cascade: true })
+  images?: ProductImage;
   /**
    * Verifica antes de insertar un slug
    * Antes de insertar
