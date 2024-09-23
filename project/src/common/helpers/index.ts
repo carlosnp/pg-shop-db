@@ -1,2 +1,2 @@
 export * from './build-comparator';
-export * from './create-slug';
+export * from './generate-slug';

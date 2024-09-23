@@ -5,7 +5,7 @@ import {
   MoreThan,
   MoreThanOrEqual,
 } from 'typeorm';
-import { ComparisonOperator } from '../entities';
+import { ComparisonOperator } from '../enums';
 
 /**
  * Tipo de funcion del resultado del mapa

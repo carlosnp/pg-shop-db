@@ -5,9 +5,8 @@ import {
   Entity,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-
+import { generateSlug } from 'src/common';
 import { AllUnits, GenericUnit, UnitsEnum } from './units.enum';
-import { createSlug } from '../helpers';
 
 @Entity({ name: 'product' })
 export class Product {
@@ -68,9 +67,9 @@ export class Product {
   checkSlugInsert() {
     // Si no existe el slug, lo creamos. Si existe lo pasamos igual por las reglas
     if (!this.slug) {
-      this.slug = createSlug(this.title);
+      this.slug = generateSlug(this.title);
     } else {
-      this.slug = createSlug(this.slug);
+      this.slug = generateSlug(this.slug);
     }
   }
   /**
@@ -87,6 +86,6 @@ export class Product {
   @BeforeUpdate()
   checkSlugUpdate() {
     // Verificamos el slug
-    this.slug = createSlug(this.slug);
+    this.slug = generateSlug(this.slug);
   }
 }

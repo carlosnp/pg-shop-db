@@ -9,9 +9,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
 import { validate as isUuid } from 'uuid';
 import { CreateProductDto, UpdateProductDto } from './dto';
-import { ComparisonOperator, Product } from './entities';
-import { PaginationDto } from 'src/common';
-import { buildComparator } from './helpers';
+import { Product } from './entities';
+import { buildComparator, ComparisonOperator, PaginationDto } from 'src/common';
 
 @Injectable()
 export class ProductsService {

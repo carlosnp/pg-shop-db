@@ -3,7 +3,7 @@
  * @param {string} text Texto
  * @returns slug
  */
-export const createSlug = (text: string): string => {
+export const generateSlug = (text: string): string => {
   // Convertir a minúsculas
   const lowerCase = text.toLowerCase();
   // Eliminar caracteres especiales y espacios

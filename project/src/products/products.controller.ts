@@ -11,8 +11,8 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from './dto';
-import { ComparisonOperator, Product } from './entities';
-import { PaginationDto } from 'src/common';
+import { Product } from './entities';
+import { ComparisonOperator, PaginationDto } from 'src/common';
 
 @Controller('products')
 export class ProductsController {
@@ -113,7 +113,7 @@ export class ProductsController {
    * @returns {Promise<Product>}
    */
   @Delete(':id')
-  remove(@Param('id', ParseUUIDPipe) id: string) {
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<Product> {
     return this.productsService.remove(id);
   }
 }
