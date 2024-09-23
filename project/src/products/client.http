@@ -39,17 +39,16 @@ POST http://localhost:3000/api/products
 Content-Type: application/json
 
 {
-  "title": "Jamon de pierna",
-  "price": 12.8
+  "title": "Tocineta",
+  "price": 20
 }
 
 ### Actualizar un producto
-PATCH  http://localhost:3000/api/products/e43a6c33-d0a1-49ad-b4df-3fd12666eb2f
+PATCH  http://localhost:3000/api/products/a84af8af-54b9-4185-be9b-f5421a8e06d9
 Content-Type: application/json
 
 {
-  "price": 13,
-  "brand": "Don armando"
+  "unit": "kg"
 }
 
 ### Actualizar un producto Error con el titulo
@@ -65,5 +64,5 @@ PATCH  http://localhost:3000/api/products/a84af8af-54b9-4185-be9b-f5421a8e06d9
 Content-Type: application/json
 
 {
-  "tags": ["suave", "queso"]
+  "tags": ["suave", "queso", "perro"]
 }

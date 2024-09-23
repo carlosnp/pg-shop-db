@@ -1,10 +1,33 @@
 import { CrudResponse, SearchResult } from 'src/common';
 import { Product } from '../entities';
+import {
+  BadRequestException,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 
+/**
+ * Errors
+ */
+export type CrudError = BadRequestException | InternalServerErrorException;
+
+/**
+ * Paylaod para las listas
+ */
 export type ListPayload = SearchResult<Product>;
+/**
+ * Payload para crear
+ */
+export type CreatedError = CrudError;
+export type CreatedPayload = CrudResponse<Product, CreatedError>;
+/**
+ * Payload para actualizar
+ */
+export type UpdatedError = CrudError | NotFoundException;
+export type UpdatedPayload = CrudResponse<Product, UpdatedError>;
 
-export type CreatedPayload = CrudResponse<Product>;
-
-export type UpdatedPayload = CrudResponse<Product>;
-
-export type DeletedPayload = CrudResponse<Product>;
+/**
+ * Payload para eliminar
+ */
+export type DeletedError = NotFoundException;
+export type DeletedPayload = CrudResponse<Product, DeletedError>;

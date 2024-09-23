@@ -1,8 +1,8 @@
 /**
  * Respuesta de un CRUD
  */
-export interface CrudResponse<T> {
+export interface CrudResponse<T, E> {
   id?: string;
   entity?: T;
-  error?: unknown;
+  error?: E | unknown;
 }
