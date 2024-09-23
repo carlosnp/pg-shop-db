@@ -39,16 +39,17 @@ POST http://localhost:3000/api/products
 Content-Type: application/json
 
 {
-  "title": "Jamon fiambre",
-  "price": 10
+  "title": "Jamon de pierna",
+  "price": 12.8
 }
 
 ### Actualizar un producto
-PATCH  http://localhost:3000/api/products/a84af8af-54b9-4185-be9b-f5421a8e06d9
+PATCH  http://localhost:3000/api/products/e43a6c33-d0a1-49ad-b4df-3fd12666eb2f
 Content-Type: application/json
 
 {
-  "price": 10
+  "price": 13,
+  "brand": "Don armando"
 }
 
 ### Actualizar un producto Error con el titulo

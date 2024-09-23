@@ -13,20 +13,15 @@ import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product } from './entities';
 import { ComparisonOperator, PaginationDto } from 'src/common';
-import { ListPayload } from './payloads';
+import { CreatedPayload, ListPayload, UpdatedPayload } from './payloads';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
   /**
-   * Crear un producto
-   * @param { CreateProductDto } createProductDto
-   * @returns { Promise<Product> } Producto
+   * Constructor del controlador
+   * @param {ProductsService} productsService Servicio
    */
-  @Post()
-  create(@Body() createProductDto: CreateProductDto): Promise<Product> {
-    return this.productsService.create(createProductDto);
-  }
+  constructor(private readonly productsService: ProductsService) {}
   /**
    * Lista de productos
    * @returns {Promise<ListPayload>}
@@ -49,9 +44,8 @@ export class ProductsController {
    * @param {string} title Titulo
    * @returns {Promise<ListPayload>}
    */
-  @Get('by-title') findBytitle(
-    @Query('title') title: string,
-  ): Promise<ListPayload> {
+  @Get('by-title')
+  findBytitle(@Query('title') title: string): Promise<ListPayload> {
     const products = this.productsService.findByTitle(title);
     return products;
   }
@@ -61,7 +55,8 @@ export class ProductsController {
    * @param {ComparisonOperator} operator Operador
    * @returns {Promise<ListPayload>}
    */
-  @Get('by-price') findByPrice(
+  @Get('by-price')
+  findByPrice(
     @Query('price') price: number,
     @Query('operator') operator: ComparisonOperator,
   ): Promise<ListPayload> {
@@ -96,6 +91,15 @@ export class ProductsController {
     return this.productsService.findByQuery(id);
   }
   /**
+   * Crear un producto
+   * @param { CreateProductDto } createProductDto
+   * @returns { Promise<CreatedPayload> } Producto
+   */
+  @Post()
+  create(@Body() createProductDto: CreateProductDto): Promise<CreatedPayload> {
+    return this.productsService.create(createProductDto);
+  }
+  /**
    * Actualizar
    * @param {string} id Id
    * @param updateProductDto Datos del producto
@@ -105,7 +109,7 @@ export class ProductsController {
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProductDto: UpdateProductDto,
-  ): Promise<Product> {
+  ): Promise<UpdatedPayload> {
     return this.productsService.update(id, updateProductDto);
   }
   /**

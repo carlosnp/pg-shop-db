@@ -31,6 +31,11 @@ export class Product {
   @Column({ type: 'text', unique: true })
   slug: string;
   /**
+   * Marca. Opcional
+   */
+  @Column({ type: 'text', nullable: true })
+  brand: string;
+  /**
    * Precio base
    */
   @Column({ type: 'float' })

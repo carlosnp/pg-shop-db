@@ -1,1 +1,1 @@
-export * from './list.payload';
+export * from './crud.payload';

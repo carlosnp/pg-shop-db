@@ -31,6 +31,12 @@ export class CreateProductDto {
   @IsOptional()
   description?: string;
   /**
+   * Marca. Opcional
+   */
+  @IsString()
+  @IsOptional()
+  brand?: string;
+  /**
    * Slug
    */
   @IsString()

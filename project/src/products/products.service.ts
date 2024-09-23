@@ -11,7 +11,7 @@ import { validate as isUuid } from 'uuid';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product } from './entities';
 import { buildComparator, ComparisonOperator, PaginationDto } from 'src/common';
-import { ListPayload } from './payloads';
+import { CreatedPayload, ListPayload, UpdatedPayload } from './payloads';
 
 @Injectable()
 export class ProductsService {
@@ -27,23 +27,6 @@ export class ProductsService {
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
   ) {}
-  /**
-   * Crear un producto
-   * @param {CreateProductDto} createProductDto
-   * @returns {Promise<Product>} Producto
-   */
-  async create(createProductDto: CreateProductDto): Promise<Product> {
-    try {
-      /** Creamos el producto */
-      const product = this.productRepository.create(createProductDto);
-      /** Guardamos el producto */
-      const save = await this.productRepository.save(product);
-      this.logger.verbose('Producto creado');
-      return save;
-    } catch (error) {
-      this.handleDBExceptions(error);
-    }
-  }
   /**
    * Lista de productos
    * @returns {Promise<Product[]>} Lista
@@ -153,7 +136,7 @@ export class ProductsService {
       find = await queryBuilder
         .where('UPPER(title) =:title or slug =:slug', {
           title: term.toUpperCase(),
-          slug: term.toLocaleLowerCase(),
+          slug: term.toLowerCase(),
         })
         .getOne();
     }
@@ -166,6 +149,24 @@ export class ProductsService {
     return find;
   }
   /**
+   * Crear un producto
+   * @param {CreateProductDto} createProductDto
+   * @returns {Promise<Product>} Producto
+   */
+  async create(createProductDto: CreateProductDto): Promise<CreatedPayload> {
+    try {
+      /** Creamos el producto */
+      const product = this.productRepository.create(createProductDto);
+      /** Guardamos el producto */
+      const result = await this.productRepository.save(product);
+      this.logger.verbose('Producto creado');
+      return { id: result.id, entity: result };
+    } catch (error) {
+      const handlerError = this.handleDBExceptions(error);
+      return { error: handlerError };
+    }
+  }
+  /**
    * Actualizar un producto
    * @param {string} id Id del producto
    * @param {UpdateProductDto} updateProductDto Data a actualizar
@@ -174,7 +175,7 @@ export class ProductsService {
   async update(
     id: string,
     updateProductDto: UpdateProductDto,
-  ): Promise<Product> {
+  ): Promise<UpdatedPayload> {
     /** Preparamos para la actualizacion */
     const find = await this.productRepository.preload({
       id: id,
@@ -182,15 +183,17 @@ export class ProductsService {
     });
     /** Verificamos que exista */
     if (!find) {
-      throw new NotFoundException(`Product with ID ${id} not found`);
+      const error = new NotFoundException(`Product with ID ${id} not found`);
+      return { error: error };
     }
     /** Guardamos */
     try {
       const result = await this.productRepository.save(find);
       this.logger.verbose('Producto actualizado');
-      return result;
+      return { id: result.id, entity: result };
     } catch (error) {
-      this.handleDBExceptions(error);
+      const handlerError = this.handleDBExceptions(error);
+      return { error: handlerError };
     }
   }
   /**
@@ -201,6 +204,7 @@ export class ProductsService {
   async remove(id: string): Promise<Product> {
     const find = await this.findById(id);
     const result = await this.productRepository.remove(find);
+    this.logger.verbose('Producto eliminado');
     return result;
   }
   /**
@@ -216,11 +220,11 @@ export class ProductsService {
     /** Se imprim el error en el terminal */
     this.logger.error(error);
     if (error.code === '23505') {
-      throw new BadRequestException(error.detail);
+      return new BadRequestException(error.detail);
     }
     if (error.criteria) {
-      throw new BadRequestException(error.message);
+      return new BadRequestException(error.message);
     }
-    throw new InternalServerErrorException('Unexpected error! save me!!!');
+    return new InternalServerErrorException('Unexpected error! save me!!!');
   }
 }
