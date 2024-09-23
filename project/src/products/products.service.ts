@@ -6,7 +6,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { DataSource, ILike, Repository } from 'typeorm';
 import { validate as isUuid } from 'uuid';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product, ProductImage } from './entities';
@@ -23,12 +23,14 @@ export class ProductsService {
    * Constructor
    * @param {Repository<Product>} productRepository Respositorio de productos
    * @param {Repository<ProductImage>} productImageRepository Respositorio de imagenes
+   * @param {DataSource} dataSource Fuente de base de datos
    */
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
     @InjectRepository(ProductImage)
     private readonly productImageRepository: Repository<ProductImage>,
+    private readonly dataSource: DataSource,
   ) {}
   /**
    * Mapear entidad producto
@@ -204,23 +206,47 @@ export class ProductsService {
     id: string,
     updateProductDto: UpdateProductDto,
   ): Promise<UpdatedPayload> {
+    const { images, ...productProps } = updateProductDto;
     /** Preparamos para la actualizacion */
-    const find = await this.productRepository.preload({
-      id: id,
-      ...updateProductDto,
-      images: [],
-    });
+    const find = await this.productRepository.preload({ id, ...productProps });
     /** Verificamos que exista */
     if (!find) {
       const error = new NotFoundException(`Product with ID ${id} not found`);
       return { error: error };
     }
+    /** Creamos el queryRunner */
+    const queryRunner = this.dataSource.createQueryRunner();
+    /** Conectamos a la base de datos */
+    await queryRunner.connect();
+    /** inicializamos la transaccion */
+    await queryRunner.startTransaction();
     /** Guardamos */
     try {
-      const result = await this.productRepository.save(find);
+      /** Si tiene imagenes */
+      if (images) {
+        /** Eliminamos las imagenes actuales del producto */
+        await queryRunner.manager.delete(ProductImage, { product: { id } });
+        find.images = images.map((img) =>
+          this.productImageRepository.create({ url: img }),
+        );
+      } else {
+        /** Buscamos las imagenes del producto y las insertamos */
+        const oldImages = await this.productImageRepository.findBy({
+          product: { id },
+        });
+        find.images = oldImages;
+      }
+      const result = await queryRunner.manager.save(find);
+      await queryRunner.commitTransaction();
+      /** Libera el query runner */
+      await queryRunner.release();
       this.logger.verbose('Producto actualizado');
       return { id: result.id, entity: result };
     } catch (error) {
+      /** Regresamos los cambios */
+      await queryRunner.rollbackTransaction();
+      /** Libera el query runner */
+      await queryRunner.release();
       const handlerError = this.handleDBExceptions(error);
       return { error: handlerError };
     }

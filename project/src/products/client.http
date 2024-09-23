@@ -49,11 +49,12 @@ Content-Type: application/json
 }
 
 ### Actualizar un producto
-PATCH  http://localhost:3000/api/products/a84af8af-54b9-4185-be9b-f5421a8e06d9
+PATCH  http://localhost:3000/api/products/59a7c70d-5927-4bc5-9a6f-7ea7e40023e5
 Content-Type: application/json
 
 {
-  "unit": "kg"
+  "unit": "kg",
+  "images": ["http://image3.jgp"]
 }
 
 ### Actualizar un producto Error con el titulo
