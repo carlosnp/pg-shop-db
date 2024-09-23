@@ -69,8 +69,11 @@ export class Product {
   /**
    * Images de un producto
    */
-  @OneToMany(() => ProductImage, (img) => img.product, { cascade: true })
-  images?: ProductImage;
+  @OneToMany(() => ProductImage, (img) => img.product, {
+    cascade: true,
+    eager: true,
+  })
+  images: ProductImage[];
   /**
    * Verifica antes de insertar un slug
    * Antes de insertar
