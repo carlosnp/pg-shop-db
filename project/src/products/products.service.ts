@@ -11,6 +11,7 @@ import { validate as isUuid } from 'uuid';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product } from './entities';
 import { buildComparator, ComparisonOperator, PaginationDto } from 'src/common';
+import { ListPayload } from './payloads';
 
 @Injectable()
 export class ProductsService {
@@ -47,10 +48,12 @@ export class ProductsService {
    * Lista de productos
    * @returns {Promise<Product[]>} Lista
    */
-  getAll(): Promise<Product[]> {
-    const list = this.productRepository.find({});
+  async getAll(): Promise<ListPayload> {
+    const list = await this.productRepository.find({});
+    const total = list.length;
+    const result: ListPayload = { total, list };
     this.logger.verbose('Productos listados');
-    return list;
+    return result;
   }
   /**
    * Lista paginada
@@ -65,9 +68,6 @@ export class ProductsService {
     });
     this.logger.verbose('Productos paginados');
     return list;
-  }
-  findAll() {
-    return `This action returns all products`;
   }
   /**
    * Encontrar producto por su id
@@ -108,27 +108,32 @@ export class ProductsService {
   /**
    * Lista todos por titulo
    * @param title Titulo
-   * @returns {Promise<Product[]>}
+   * @returns {Promise<ListPayload>}
    */
-  async findByTitle(title: string): Promise<Product[]> {
-    return await this.productRepository.find({
+  async findByTitle(title: string): Promise<ListPayload> {
+    const list = await this.productRepository.find({
       where: { title: ILike(`%${title.toLowerCase()}%`) },
     });
+    const total = list.length;
+    const result: ListPayload = { total, list };
+    return result;
   }
   /**
    * Encuentra productos por precio
    * @param {number} price precio
    * @param {ComparisonOperator} operator operador
-   * @returns {Promise<Product[]>} Lista de prodcutos
+   * @returns {Promise<ListPayload>} Lista de prodcutos
    */
   async findProductsByPrice(
     price: number,
     operator: ComparisonOperator,
-  ): Promise<Product[]> {
+  ): Promise<ListPayload> {
     const whereCondition = buildComparator(price, operator, 'price');
-    const result = await this.productRepository.find({
+    const list = await this.productRepository.find({
       where: { ...whereCondition },
     });
+    const total = list.length;
+    const result: ListPayload = { total, list };
     return result;
   }
   /**

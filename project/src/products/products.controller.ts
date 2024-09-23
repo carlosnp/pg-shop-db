@@ -13,6 +13,7 @@ import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product } from './entities';
 import { ComparisonOperator, PaginationDto } from 'src/common';
+import { ListPayload } from './payloads';
 
 @Controller('products')
 export class ProductsController {
@@ -28,10 +29,10 @@ export class ProductsController {
   }
   /**
    * Lista de productos
-   * @returns {Promise<Product[]>}
+   * @returns {Promise<ListPayload>}
    */
   @Get()
-  getAll(): Promise<Product[]> {
+  getAll(): Promise<ListPayload> {
     return this.productsService.getAll();
   }
   /**
@@ -46,11 +47,11 @@ export class ProductsController {
   /**
    * Encontrar por titulo
    * @param {string} title Titulo
-   * @returns {Promise<Product[]>}
+   * @returns {Promise<ListPayload>}
    */
   @Get('by-title') findBytitle(
     @Query('title') title: string,
-  ): Promise<Product[]> {
+  ): Promise<ListPayload> {
     const products = this.productsService.findByTitle(title);
     return products;
   }
@@ -58,12 +59,12 @@ export class ProductsController {
    * Obtener productos por precio
    * @param {number} price Precio
    * @param {ComparisonOperator} operator Operador
-   * @returns {Promise<Product[]>}
+   * @returns {Promise<ListPayload>}
    */
   @Get('by-price') findByPrice(
     @Query('price') price: number,
     @Query('operator') operator: ComparisonOperator,
-  ): Promise<Product[]> {
+  ): Promise<ListPayload> {
     const products = this.productsService.findProductsByPrice(price, operator);
     return products;
   }

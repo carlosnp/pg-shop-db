@@ -2,6 +2,7 @@
  * Interface para la lista de items
  */
 export interface SearchResult<T> {
-  data: T[];
+  /** Total de items */
   total: number;
+  list: T[];
 }
