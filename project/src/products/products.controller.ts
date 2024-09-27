@@ -12,7 +12,7 @@ import {
 import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product } from './entities';
-import { ComparisonOperator, PaginationDto } from 'src/common';
+import { ComparisonOperator, PaginationDto } from 'src/pg-shop';
 import {
   CreatedPayload,
   DeletedPayload,

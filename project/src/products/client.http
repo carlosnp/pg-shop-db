@@ -39,7 +39,7 @@ POST http://localhost:3000/api/products
 Content-Type: application/json
 
 {
-  "title": "Salchichas tipo viena",
+  "title": "Queso tduro",
   "price": 5,
   "stock": 10,
   "images": [

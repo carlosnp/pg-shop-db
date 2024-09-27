@@ -6,9 +6,10 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { generateSlug } from 'src/common';
+
 import { AllUnits, GenericUnit, UnitsEnum } from './units.enum';
 import { ProductImage } from './product-image.entity';
+import { generateSlug } from 'src/pg-shop';
 
 @Entity({ name: 'product' })
 export class Product {

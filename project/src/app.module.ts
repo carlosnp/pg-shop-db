@@ -4,7 +4,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PgShopModule } from './pg-shop';
 import { ProductsModule } from './products';
-import { CommonModule } from './common';
 import { SeedModule } from './seed';
 
 @Module({
@@ -14,7 +13,6 @@ import { SeedModule } from './seed';
       isGlobal: true,
     }),
     PgShopModule,
-    CommonModule,
     ProductsModule,
     SeedModule,
   ],

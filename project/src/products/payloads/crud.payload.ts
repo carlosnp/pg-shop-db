@@ -1,4 +1,4 @@
-import { CrudResponse, SearchResult } from 'src/common';
+import { CrudResponse, SearchResult } from 'src/pg-shop';
 import { Product } from '../entities';
 import {
   BadRequestException,

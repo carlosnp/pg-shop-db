@@ -10,8 +10,17 @@ import { DataSource, DeleteResult, ILike, Repository } from 'typeorm';
 import { validate as isUuid } from 'uuid';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product, ProductImage } from './entities';
-import { buildComparator, ComparisonOperator, PaginationDto } from 'src/common';
-import { CreatedPayload, DeletedPayload, ListPayload, UpdatedPayload } from './payloads';
+import {
+  buildComparator,
+  ComparisonOperator,
+  PaginationDto,
+} from 'src/pg-shop';
+import {
+  CreatedPayload,
+  DeletedPayload,
+  ListPayload,
+  UpdatedPayload,
+} from './payloads';
 
 @Injectable()
 export class ProductsService {

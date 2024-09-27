@@ -1,17 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-// const dataSourceOptions: TypeOrmModuleOptions = {
-//   type: 'postgres',
-//   host: 'localhost',
-//   port: 5432,
-//   username: 'postgres',
-//   password: 'postgres',
-//   database: 'pgShopDB',
-//   entities: ['dist/**/*.entity{.ts,.js}'],
-//   synchronize: true,
-// };
+import { CommonModule } from './common';
 
 @Module({
   imports: [
@@ -30,6 +20,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       }),
       inject: [ConfigService],
     }),
+    CommonModule,
     // TypeOrmModule.forRoot({
     //   type: 'postgres',
     //   host: 'localhost',
@@ -41,5 +32,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     //   synchronize: true,
     // }),
   ],
+  exports: [CommonModule],
 })
 export class PgShopModule {}
