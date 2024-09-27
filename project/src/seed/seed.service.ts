@@ -1,10 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreatedPayload, ProductsService } from '../products';
 import { seedProducts } from './data';
 import { DeleteResult } from 'typeorm';
 
 @Injectable()
 export class SeedService {
+  /**
+   * Instancia para el registro de eventos
+   */
+  private readonly logger = new Logger('Seed');
   /**
    * Constructor
    * @param productsService Servicio de productos
@@ -26,6 +30,7 @@ export class SeedService {
     const result = await Promise.all(insertP);
     const entities = result.map((item) => item.entity);
     const errors = result.filter((item) => !!item.error);
+    this.logger.verbose('Finalizo la carga de la base de datos');
     return { entities, errors };
   }
   /**

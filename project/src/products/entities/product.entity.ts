@@ -1,26 +1,11 @@
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-
-import { generateSlug } from 'src/pg-shop';
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
+import { BasicWithUuidEntity, generateSlug } from 'src/pg-shop';
 import { AllUnits, GenericUnit, UnitsEnum } from '../enums';
 import { ProductModel } from '../models';
 import { ProductImage } from './product-image.entity';
 
 @Entity({ name: 'products' })
-export class Product implements ProductModel {
-  /**
-   * Identificador
-   */
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class Product extends BasicWithUuidEntity implements ProductModel {
   /**
    * Titulo
    */
@@ -73,16 +58,6 @@ export class Product implements ProductModel {
     eager: true,
   })
   images: ProductImage[];
-  /**
-   * Fecha de creacion
-   */
-  @CreateDateColumn({ type: 'timestamp with time zone' })
-  createdAt: Date;
-  /**
-   * Fecha de actualizacion
-   */
-  @UpdateDateColumn({ type: 'timestamp with time zone' })
-  updatedAt: Date;
   /**
    * Verifica antes de insertar un slug
    * Antes de insertar
