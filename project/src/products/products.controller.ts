@@ -13,7 +13,12 @@ import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product } from './entities';
 import { ComparisonOperator, PaginationDto } from 'src/common';
-import { CreatedPayload, ListPayload, UpdatedPayload } from './payloads';
+import {
+  CreatedPayload,
+  DeletedPayload,
+  ListPayload,
+  UpdatedPayload,
+} from './payloads';
 
 @Controller('products')
 export class ProductsController {
@@ -115,10 +120,18 @@ export class ProductsController {
   /**
    * Eliminar un producto
    * @param {string} id Id
-   * @returns {Promise<Product>}
+   * @returns {Promise<DeletedPayload>}
    */
   @Delete(':id')
-  remove(@Param('id', ParseUUIDPipe) id: string): Promise<Product> {
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeletedPayload> {
     return this.productsService.remove(id);
+  }
+  /**
+   * Elimina todos los productos
+   * @returns
+   */
+  @Delete('infinity-gauntlet')
+  removeAll() {
+    return this.productsService.removeAll();
   }
 }

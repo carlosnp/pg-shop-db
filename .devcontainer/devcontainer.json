@@ -12,7 +12,9 @@
 				"cweijan.vscode-postgresql-client2",
 				"shakram02.bash-beautify",
 				"eliostruyf.vscode-typescript-exportallmodules",
-				"humao.rest-client"
+				"humao.rest-client",
+				"captainstack.captain-stack",
+				"donjayamanne.githistory"
 			]
 		}
 	}

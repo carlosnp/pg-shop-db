@@ -6,12 +6,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, ILike, Repository } from 'typeorm';
+import { DataSource, DeleteResult, ILike, Repository } from 'typeorm';
 import { validate as isUuid } from 'uuid';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product, ProductImage } from './entities';
 import { buildComparator, ComparisonOperator, PaginationDto } from 'src/common';
-import { CreatedPayload, ListPayload, UpdatedPayload } from './payloads';
+import { CreatedPayload, DeletedPayload, ListPayload, UpdatedPayload } from './payloads';
 
 @Injectable()
 export class ProductsService {
@@ -254,13 +254,26 @@ export class ProductsService {
   /**
    * Eliminar un producto
    * @param {string} id Id del producto
-   * @returns {Promise<Product>}
+   * @returns {Promise<DeletedPayload>}
    */
-  async remove(id: string): Promise<Product> {
+  async remove(id: string): Promise<DeletedPayload> {
     const find = await this.findById(id);
     const result = await this.productRepository.remove(find);
     this.logger.verbose('Producto eliminado');
     return result;
+  }
+  /**
+   * Eliminar todos los productos
+   * @returns {Promise<DeleteResult>}
+   */
+  async removeAll(): Promise<DeleteResult> {
+    const query = this.productRepository.createQueryBuilder('product');
+    try {
+      const remove = await query.delete().where({}).execute();
+      return remove;
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
   }
   /**
    * Manejo de errores

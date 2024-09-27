@@ -32,7 +32,7 @@ GET http://localhost:3000/api/products/text/queso_mozzarella
 GET http://localhost:3000/api/products/text/Queso telita
 
 ### Eliminar un producto
-DELETE  http://localhost:3000/api/products/73e35552-f6ac-44f5-8d4e-097c73e4389b
+DELETE  http://localhost:3000/api/products/be18e6c1-af8a-4016-ad0e-a57a0842148e
 
 ### Crear un producto
 POST http://localhost:3000/api/products
@@ -49,12 +49,12 @@ Content-Type: application/json
 }
 
 ### Actualizar un producto
-PATCH  http://localhost:3000/api/products/59a7c70d-5927-4bc5-9a6f-7ea7e40023e5
+PATCH  http://localhost:3000/api/products/be18e6c1-af8a-4016-ad0e-a57a0842148e
 Content-Type: application/json
 
 {
   "unit": "kg",
-  "images": ["http://image3.jgp"]
+  "images": ["http://image5.jgp"]
 }
 
 ### Actualizar un producto Error con el titulo
@@ -70,5 +70,6 @@ PATCH  http://localhost:3000/api/products/a84af8af-54b9-4185-be9b-f5421a8e06d9
 Content-Type: application/json
 
 {
-  "tags": ["suave", "queso", "perro"]
+  "tags": ["suave", "queso", "perro"],
+  "stock": 10
 }
