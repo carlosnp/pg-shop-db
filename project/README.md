@@ -1,8 +1,13 @@
 ## Project setup
 
+1. Instalar
 ```bash
 $ yarn install
 ```
+2. Clonar el archivo ```.env.default``` y crear ```.env```
+3. Modificar las variables de entorno
+4. Ejecutar el seed ``` http://localhost:3000/api/seed ```
+5. Levantar el proyecto
 
 ## Compile and run the project
 
