@@ -12,7 +12,7 @@ export interface ProductBase {
   /**
    * Descripcion. Opcional
    */
-  description: string;
+  description?: string;
   /**
    * Slug
    */
@@ -28,25 +28,37 @@ export interface ProductBase {
   /**
    * Existencias. Opcional
    */
-  stock: number;
+  stock?: number;
   /**
    * Unidad del producto. Opcional
    */
   unit?: UnitsEnum;
   /**
-   * Tamaños. Opcional
-   */
-  sizes: string[];
-  /**
    * Etiquetas. Opcional
    */
   tags: string[];
+}
+/**
+ * Interface para crear un producto
+ */
+export interface ProductModelCreate extends ProductBase {
+  /**
+   * Images de un producto
+   */
+  images: string[];
+}
+/**
+ * interface del modelo base del producto
+ */
+export interface ProductModelBase extends ProductBase {
   /**
    * Images de un producto
    */
   images: ProductImageModel[];
 }
-
-export interface ProductModel extends ProductBase {
+/**
+ * Modelo del producto
+ */
+export interface ProductModel extends ProductModelBase {
   id: string;
 }

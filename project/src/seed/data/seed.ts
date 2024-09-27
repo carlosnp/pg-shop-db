@@ -1,7 +1,6 @@
-import { WeightUnit } from 'src/products';
-import { ProductSeed } from '../models';
+import { ProductModelCreate, WeightUnit } from 'src/products';
 
-export const seedProducts: ProductSeed[] = [
+export const seedProducts: ProductModelCreate[] = [
   {
     name: 'Queso Telita Paisa',
     description: 'Queso blanco semiduro, ideal para arepas.',
@@ -10,7 +9,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_1.jpg', 'http://image_2.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -21,7 +20,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_3.jpg', 'http://image_4.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -32,7 +31,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_5.jpg', 'http://image_6.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -43,7 +42,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_7.jpg', 'http://image_8.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -54,7 +53,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_9.jpg', 'http://image_10.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -65,7 +64,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_11.jpg', 'http://image_12.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -76,7 +75,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_13.jpg', 'http://image_14.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -87,7 +86,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_15.jpg', 'http://image_16.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -98,7 +97,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_17.jpg', 'http://image_18.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -109,7 +108,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_19.jpg', 'http://image_20.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -120,7 +119,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_21.jpg', 'http://image_22.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -131,7 +130,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_23.jpg', 'http://image_24.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -142,7 +141,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_25.jpg', 'http://image_26.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -153,7 +152,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_27.jpg', 'http://image_28.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -164,7 +163,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_29.jpg', 'http://image_30.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -175,7 +174,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_31.jpg', 'http://image_32.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -186,7 +185,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_33.jpg', 'http://image_34.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -197,7 +196,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_35.jpg', 'http://image_36.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -208,7 +207,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_37.jpg', 'http://image_38.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -219,7 +218,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_39.jpg', 'http://image_40.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -230,7 +229,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_41.jpg', 'http://image_42.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -241,7 +240,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_43.jpg', 'http://image_44.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -252,7 +251,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_45.jpg', 'http://image_46.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -263,7 +262,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_47.jpg', 'http://image_48.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -274,7 +273,7 @@ export const seedProducts: ProductSeed[] = [
     unit: WeightUnit.KG,
     images: ['http://image_49.jpg', 'http://image_50.jpg'],
     stock: 0,
-    sizes: [],
+
     tags: [],
   },
   {
@@ -284,7 +283,7 @@ export const seedProducts: ProductSeed[] = [
     price: 7,
     brand: 'Don armando',
     stock: 0,
-    sizes: [],
+
     tags: [],
     images: [],
   },

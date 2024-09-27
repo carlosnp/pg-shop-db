@@ -10,8 +10,9 @@ import {
 } from 'class-validator';
 
 import { AllUnits, UnitsEnum } from '../enums';
+import { ProductModelCreate } from '../models';
 
-export class CreateProductDto {
+export class CreateProductDto implements ProductModelCreate {
   /**
    * Titulo
    */
@@ -55,13 +56,6 @@ export class CreateProductDto {
   @IsEnum(AllUnits)
   @IsOptional()
   unit?: UnitsEnum;
-  /**
-   * Tamaños. Opcional
-   */
-  @IsString({ each: true })
-  @IsArray()
-  @IsOptional()
-  sizes: string[];
   /**
    * Etiquetas. Opcional\
    */

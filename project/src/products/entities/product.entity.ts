@@ -59,11 +59,6 @@ export class Product implements ProductModel {
   })
   unit: UnitsEnum;
   /**
-   * Tamaños. Opcional
-   */
-  @Column({ type: 'text', array: true, default: [] })
-  sizes: string[];
-  /**
    * Etiquetas. Opcional
    */
   @Column({ type: 'text', array: true, default: [] })

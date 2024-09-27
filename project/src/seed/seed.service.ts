@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreatedPayload, ProductsService } from '../products';
 import { seedProducts } from './data';
+import { DeleteResult } from 'typeorm';
 
 @Injectable()
 export class SeedService {
@@ -31,9 +32,8 @@ export class SeedService {
    * Elimina la base de datos
    * @returns {Promise<boolean>}
    */
-  async deleteDB(): Promise<boolean> {
+  async deleteDB(): Promise<DeleteResult> {
     const remove = await this.productsService.removeAll();
-    console.log(remove);
-    return true;
+    return remove;
   }
 }
