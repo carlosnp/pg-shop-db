@@ -3,7 +3,7 @@ import { ProductSeed } from '../models';
 
 export const seedProducts: ProductSeed[] = [
   {
-    title: 'Queso Telita Paisa',
+    name: 'Queso Telita Paisa',
     description: 'Queso blanco semiduro, ideal para arepas.',
     price: 7.5,
     brand: 'Paisa',
@@ -14,7 +14,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Jamón Serrano Punta de Monte',
+    name: 'Jamón Serrano Punta de Monte',
     description: 'Jamón curado con sabor intenso, perfecto para tablas.',
     price: 9,
     brand: 'Punta de Monte',
@@ -25,7 +25,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Tocineta Ahumada Disprolac',
+    name: 'Tocineta Ahumada Disprolac',
     description: 'Tocineta con ahumado suave, ideal para desayunos.',
     price: 6.5,
     brand: 'Disprolac',
@@ -36,7 +36,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Mortadela Especial Caracas',
+    name: 'Mortadela Especial Caracas',
     description: 'Mortadela clásica con trozos de tocino.',
     price: 5.5,
     brand: 'Caracas',
@@ -47,7 +47,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Queso Amarillo Fritz',
+    name: 'Queso Amarillo Fritz',
     description: 'Queso cremoso, ideal para fundir.',
     price: 8,
     brand: 'Fritz',
@@ -58,7 +58,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Jamón de Espalda Arepero',
+    name: 'Jamón de Espalda Arepero',
     description: 'Jamón cocido, bajo en grasa, ideal para arepas.',
     price: 6,
     brand: 'Genérico',
@@ -69,7 +69,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Tocineta S/Humo',
+    name: 'Tocineta S/Humo',
     description: 'Tocineta sin ahumar, sabor más suave.',
     price: 7,
     brand: 'Genérico',
@@ -80,7 +80,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Mortadela de Pollo',
+    name: 'Mortadela de Pollo',
     description: 'Mortadela ligera con sabor a pollo.',
     price: 5,
     brand: 'Genérico',
@@ -91,7 +91,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Queso Blanco Fresquito',
+    name: 'Queso Blanco Fresquito',
     description: 'Queso fresco y suave, ideal para ensaladas.',
     price: 4.5,
     brand: 'Genérico',
@@ -102,7 +102,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Jamón Cocido',
+    name: 'Jamón Cocido',
     description: 'Jamón cocido, versátil para diversos platos.',
     price: 6.5,
     brand: 'Genérico',
@@ -113,7 +113,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Tocineta Ahumada',
+    name: 'Tocineta Ahumada',
     description: 'Tocineta con sabor ahumado tradicional.',
     price: 8,
     brand: 'Genérico',
@@ -124,7 +124,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Mortadela Tapara',
+    name: 'Mortadela Tapara',
     description: 'Mortadela con sabor característico, ideal para sándwiches.',
     price: 7,
     brand: 'Genérico',
@@ -135,7 +135,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Queso Gouda',
+    name: 'Queso Gouda',
     description: 'Queso holandés, sabor intenso y textura firme.',
     price: 9,
     brand: 'Importado',
@@ -146,7 +146,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Jamón Parma',
+    name: 'Jamón Parma',
     description: 'Jamón italiano curado, sabor salado y dulce.',
     price: 10,
     brand: 'Importado',
@@ -157,7 +157,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Tocineta Bacon',
+    name: 'Tocineta Bacon',
     description: 'Tocineta americana, sabor ahumado intenso.',
     price: 9.5,
     brand: 'Importado',
@@ -168,7 +168,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Mortadela Bologna',
+    name: 'Mortadela Bologna',
     description: 'Mortadela italiana, sabor suave y textura fina.',
     price: 8.5,
     brand: 'Importado',
@@ -179,7 +179,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Queso Mozzarella',
+    name: 'Queso Mozzarella',
     description: 'Queso italiano, ideal para pizza y lasaña.',
     price: 7.5,
     brand: 'Importado',
@@ -190,7 +190,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Jamón York',
+    name: 'Jamón York',
     description: 'Jamón cocido bajo en grasa, sabor suave.',
     price: 6.5,
     brand: 'Importado',
@@ -201,7 +201,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Tocineta Canadian Bacon',
+    name: 'Tocineta Canadian Bacon',
     description: 'Tocineta canadiense, sabor ahumado suave.',
     price: 8,
     brand: 'Importado',
@@ -212,7 +212,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Mortadela Salami',
+    name: 'Mortadela Salami',
     description: 'Mortadela con sabor a salami, ideal para sándwiches.',
     price: 7,
     brand: 'Importado',
@@ -223,7 +223,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Queso Cheddar',
+    name: 'Queso Cheddar',
     description: 'Queso inglés, sabor fuerte y textura firme.',
     price: 8.5,
     brand: 'Importado',
@@ -234,7 +234,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Jamón Ibérico',
+    name: 'Jamón Ibérico',
     description: 'Jamón español de alta calidad, sabor intenso.',
     price: 9.5,
     brand: 'Importado',
@@ -245,7 +245,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Tocineta Panceta',
+    name: 'Tocineta Panceta',
     description: 'Tocineta salada y curada, ideal para guisos.',
     price: 9,
     brand: 'Importado',
@@ -256,7 +256,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Mortadela Mortadella',
+    name: 'Mortadela Mortadella',
     description: 'Mortadela italiana clásica, sabor equilibrado.',
     price: 8,
     brand: 'Importado',
@@ -267,7 +267,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Queso Gruyère',
+    name: 'Queso Gruyère',
     description: 'Queso suizo, sabor intenso y textura granulada.',
     price: 10,
     brand: 'Importado',
@@ -278,7 +278,7 @@ export const seedProducts: ProductSeed[] = [
     tags: [],
   },
   {
-    title: 'Jamón de Pavo',
+    name: 'Jamón de Pavo',
     description: 'Jamón de pavo bajo en grasa, sabor suave.',
     unit: WeightUnit.KG,
     price: 7,

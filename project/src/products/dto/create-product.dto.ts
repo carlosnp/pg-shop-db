@@ -17,7 +17,7 @@ export class CreateProductDto {
    */
   @IsString()
   @MinLength(1)
-  title: string;
+  name: string;
   /**
    * Precio base
    */

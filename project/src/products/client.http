@@ -8,7 +8,7 @@ GET http://localhost:3000/api/products
 GET http://localhost:3000/api/products/pag?limit=2
 
 ### Lista filtrada de productos por titulo
-GET http://localhost:3000/api/products/by-title?title=queso
+GET http://localhost:3000/api/products/by-title?name=queso
 
 ### Lista filtrada de productos por precio
 GET http://localhost:3000/api/products/by-price?price=8&operator=GT
@@ -39,7 +39,7 @@ POST http://localhost:3000/api/products
 Content-Type: application/json
 
 {
-  "title": "Queso tduro",
+  "name": "Queso duro",
   "price": 5,
   "stock": 10,
   "images": [

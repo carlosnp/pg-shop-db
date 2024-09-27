@@ -8,7 +8,7 @@ export interface ProductBase {
   /**
    * Nombre del producto
    */
-  title: string;
+  name: string;
   /**
    * Descripcion. Opcional
    */

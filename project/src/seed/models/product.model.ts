@@ -4,7 +4,7 @@ export interface ProductSeed {
   /**
    * Titulo
    */
-  title: string;
+  name: string;
   /**
    * Descripcion. Opcional
    */

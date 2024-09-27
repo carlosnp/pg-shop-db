@@ -50,8 +50,8 @@ export class ProductsController {
    * @returns {Promise<ListPayload>}
    */
   @Get('by-title')
-  findBytitle(@Query('title') title: string): Promise<ListPayload> {
-    const products = this.productsService.findByTitle(title);
+  findBytitle(@Query('name') name: string): Promise<ListPayload> {
+    const products = this.productsService.findByTitle(name);
     return products;
   }
   /**

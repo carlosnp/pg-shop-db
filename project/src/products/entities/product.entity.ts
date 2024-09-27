@@ -23,7 +23,7 @@ export class Product implements ProductModel {
    * Titulo
    */
   @Column({ type: 'text', unique: true })
-  title: string;
+  name: string;
   /**
    * Descripcion. Opcional
    */
@@ -84,7 +84,7 @@ export class Product implements ProductModel {
   checkSlugInsert() {
     // Si no existe el slug, lo creamos. Si existe lo pasamos igual por las reglas
     if (!this.slug) {
-      this.slug = generateSlug(this.title);
+      this.slug = generateSlug(this.name);
     } else {
       this.slug = generateSlug(this.slug);
     }

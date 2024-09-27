@@ -124,9 +124,9 @@ export class ProductsService {
    * @param title Titulo
    * @returns {Promise<ListPayload>}
    */
-  async findByTitle(title: string): Promise<ListPayload> {
+  async findByTitle(name: string): Promise<ListPayload> {
     const list = await this.productRepository.find({
-      where: { title: ILike(`%${title.toLowerCase()}%`) },
+      where: { name: ILike(`%${name.toLowerCase()}%`) },
     });
     const total = list.length;
     const result: ListPayload = { total, list };
@@ -166,7 +166,7 @@ export class ProductsService {
       const queryBuilder = this.productRepository.createQueryBuilder('product');
       find = await queryBuilder
         .where('UPPER(title) =:title or slug =:slug', {
-          title: term.toUpperCase(),
+          name: term.toUpperCase(),
           slug: term.toLowerCase(),
         })
         .leftJoinAndSelect('product.images', 'images')
