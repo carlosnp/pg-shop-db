@@ -12,7 +12,7 @@ import { AllUnits, GenericUnit, UnitsEnum } from '../enums';
 import { ProductModel } from '../models';
 import { ProductImage } from './product-image.entity';
 
-@Entity({ name: 'product' })
+@Entity({ name: 'products' })
 export class Product implements ProductModel {
   /**
    * Identificador

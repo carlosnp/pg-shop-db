@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Product } from './product.entity';
 import { ProductImageModel } from '../models';
 
-@Entity()
+@Entity({ name: 'product_images' })
 export class ProductImage implements ProductImageModel {
   /**
    * Identificador
