@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ProductsService } from '../products';
+import { CreatedPayload, ProductsService } from '../products';
+import { seedProducts } from './data';
 
 @Injectable()
 export class SeedService {
@@ -13,7 +14,18 @@ export class SeedService {
    */
   async runSeed() {
     await this.deleteDB();
-    return 'SEED';
+    const products = [...seedProducts];
+
+    const insertP: Promise<CreatedPayload>[] = [];
+    products.forEach((product) => {
+      const promise: Promise<CreatedPayload> =
+        this.productsService.create(product);
+      insertP.push(promise);
+    });
+    const result = await Promise.all(insertP);
+    const entities = result.map((item) => item.entity);
+    const errors = result.filter((item) => !!item.error);
+    return { entities, errors };
   }
   /**
    * Elimina la base de datos

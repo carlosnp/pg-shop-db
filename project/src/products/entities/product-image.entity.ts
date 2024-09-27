@@ -1,8 +1,9 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Product } from './product.entity';
+import { ProductImageModel } from '../models';
 
 @Entity()
-export class ProductImage {
+export class ProductImage implements ProductImageModel {
   /**
    * Identificador
    */

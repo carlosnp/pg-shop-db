@@ -7,12 +7,13 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { AllUnits, GenericUnit, UnitsEnum } from './units.enum';
-import { ProductImage } from './product-image.entity';
 import { generateSlug } from 'src/pg-shop';
+import { AllUnits, GenericUnit, UnitsEnum } from '../enums';
+import { ProductModel } from '../models';
+import { ProductImage } from './product-image.entity';
 
 @Entity({ name: 'product' })
-export class Product {
+export class Product implements ProductModel {
   /**
    * Identificador
    */
@@ -49,7 +50,7 @@ export class Product {
   @Column({ type: 'int', default: 0 })
   stock: number;
   /**
-   * Unidad del producto. Opcional\
+   * Unidad del producto. Opcional
    */
   @Column({
     type: 'enum',

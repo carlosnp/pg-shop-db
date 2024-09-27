@@ -9,7 +9,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-import { AllUnits, UnitsEnum } from '../entities';
+import { AllUnits, UnitsEnum } from '../enums';
 
 export class CreateProductDto {
   /**
