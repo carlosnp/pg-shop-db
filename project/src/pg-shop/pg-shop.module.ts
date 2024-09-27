@@ -17,6 +17,7 @@ import { CommonModule } from './common';
         autoLoadEntities: true,
         synchronize: true,
         logging: true,
+        timezone: 'UTC',
       }),
       inject: [ConfigService],
     }),
