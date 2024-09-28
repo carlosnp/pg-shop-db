@@ -1,10 +1,8 @@
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
-import { BasicWithUuidEntity, generateSlug } from 'src/pg-shop';
+import { BasicWithUuidEntity, generateSlug, getIncrement } from 'src/pg-shop';
 import { AllUnits, GenericUnit, UnitsEnum } from '../enums';
 import { ProductModel } from '../models';
 import { ProductImage } from './product-image.entity';
-
-const DEFAULT_MARGIN = 0.3;
 
 @Entity({ name: 'products' })
 export class Product extends BasicWithUuidEntity implements ProductModel {
@@ -31,7 +29,7 @@ export class Product extends BasicWithUuidEntity implements ProductModel {
   /**
    * Margin
    */
-  @Column({ type: 'float', default: DEFAULT_MARGIN })
+  @Column({ type: 'float' })
   margin: number;
   /**
    * Precio base
@@ -75,9 +73,12 @@ export class Product extends BasicWithUuidEntity implements ProductModel {
    */
   @BeforeInsert()
   getSalePrice() {
-    const margin = this.margin ? this.margin : DEFAULT_MARGIN;
-    const priceSale = this.price * (1 + margin);
-    this.priceSale = Number(priceSale.toFixed(2));
+    // const margin = this.margin ? this.margin : DEFAULT_MARGIN;
+    // const priceSale = this.price * (1 + margin);
+    // this.priceSale = Number(priceSale.toFixed(2));
+    const { m, vf } = getIncrement(this.price, this.margin, this.priceSale);
+    this.margin = m;
+    this.priceSale = vf;
   }
   /**
    * Verifica antes de insertar un slug

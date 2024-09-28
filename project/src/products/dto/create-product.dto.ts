@@ -28,6 +28,13 @@ export class CreateProductDto implements ProductModelCreate {
   @IsPositive()
   price: number;
   /**
+   * Precio de venta
+   */
+  @IsNumber()
+  @IsPositive()
+  @IsOptional()
+  priceSale?: number;
+  /**
    * Margen
    */
   @IsNumber()
