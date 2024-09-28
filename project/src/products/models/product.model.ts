@@ -22,9 +22,17 @@ export interface ProductBase {
    */
   brand?: string;
   /**
+   * Margen
+   */
+  margin?: number;
+  /**
    * Precio base
    */
   price: number;
+  /**
+   * Precio de venta
+   */
+  priceSale?: number;
   /**
    * Existencias. Opcional
    */

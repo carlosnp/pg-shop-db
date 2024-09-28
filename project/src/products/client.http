@@ -39,9 +39,10 @@ POST http://localhost:3000/api/products
 Content-Type: application/json
 
 {
-  "name": "Queso duro palmita",
+  "name": "Queso duro llanero",
   "price": 5,
   "stock": 10,
+  "margin": 0.2,
   "images": [
     "http://image1.jgp",
     "http://image2.jgp"

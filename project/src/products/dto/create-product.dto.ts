@@ -6,6 +6,8 @@ import {
   IsOptional,
   IsPositive,
   IsString,
+  Max,
+  Min,
   MinLength,
 } from 'class-validator';
 
@@ -25,6 +27,15 @@ export class CreateProductDto implements ProductModelCreate {
   @IsNumber()
   @IsPositive()
   price: number;
+  /**
+   * Margen
+   */
+  @IsNumber()
+  @IsPositive()
+  @Min(0.01)
+  @Max(1)
+  @IsOptional()
+  margin?: number;
   /**
    * Descripcion. Opcional
    */

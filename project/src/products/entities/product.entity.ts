@@ -4,6 +4,8 @@ import { AllUnits, GenericUnit, UnitsEnum } from '../enums';
 import { ProductModel } from '../models';
 import { ProductImage } from './product-image.entity';
 
+const DEFAULT_MARGIN = 0.3;
+
 @Entity({ name: 'products' })
 export class Product extends BasicWithUuidEntity implements ProductModel {
   /**
@@ -27,10 +29,20 @@ export class Product extends BasicWithUuidEntity implements ProductModel {
   @Column({ type: 'text', nullable: true })
   brand: string;
   /**
+   * Margin
+   */
+  @Column({ type: 'float', default: DEFAULT_MARGIN })
+  margin: number;
+  /**
    * Precio base
    */
   @Column({ type: 'float' })
   price: number;
+  /**
+   * Precio de venta. Opcional
+   */
+  @Column({ type: 'float' })
+  priceSale: number;
   /**
    * Existencias. Opcional
    */
@@ -58,6 +70,15 @@ export class Product extends BasicWithUuidEntity implements ProductModel {
     eager: true,
   })
   images: ProductImage[];
+  /**
+   * Precio de venta
+   */
+  @BeforeInsert()
+  getSalePrice() {
+    const margin = this.margin ? this.margin : DEFAULT_MARGIN;
+    const priceSale = this.price * (1 + margin);
+    this.priceSale = Number(priceSale.toFixed(2));
+  }
   /**
    * Verifica antes de insertar un slug
    * Antes de insertar
