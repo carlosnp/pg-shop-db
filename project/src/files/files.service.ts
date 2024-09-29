@@ -1,8 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { EmptyFileException } from './provider-exceptions';
 import { LOGGER_NAME } from './constants';
 import { UploadImagePayload } from './payload';
+import { join } from 'path';
+import { DIR_IMAGES } from './helpers';
 
 @Injectable()
 export class FilesService {
@@ -29,6 +31,18 @@ export class FilesService {
       : '';
   }
   /**
+   * Encuentra la ruta completa del archivo
+   * @param {string} fileName Nombre del archivo
+   * @param {string} dir_file Directorio en donde se encuentra el archvio
+   * @returns {string} Ruta completa del archivo
+   */
+  private getPathFile(fileName: string, dir_file: string): string {
+    /** Ruta del archivo local */
+    const path = join(__dirname, `../../${dir_file}`, fileName);
+    this.logger.verbose(`Encontamos la imagen en ${path}`);
+    return path;
+  }
+  /**
    * Sube una archivo de imagen
    * @param {Request} req Solicitud
    * @param {Express.Multer.File} file Archivo
@@ -38,10 +52,6 @@ export class FilesService {
     req: Request,
     file: Express.Multer.File,
   ): UploadImagePayload {
-    // const fullUrl = this.getfullUrl(req);
-    // const metadata = this.getMetadata(req);
-    // console.log('\n fullUrl', fullUrl);
-    // console.log('\n metadata', metadata);
     if (!file) {
       const error = new EmptyFileException();
       this.logger.error(error);
@@ -49,5 +59,26 @@ export class FilesService {
     }
     const secureUrl = `${file.filename}`;
     return { entity: secureUrl };
+  }
+  /**
+   * Obtiene el path de una imagen statica
+   * @param {string} imageName Nombre de la imagen
+   */
+  public getStaticImage(res: Response, imageName: string) {
+    /** Ruta del archivo local */
+    const localPath = this.getPathFile(imageName, DIR_IMAGES);
+    res.sendFile(localPath, {}, function (err: Error) {
+      if (err) {
+        res
+          .status(404)
+          .json({
+            status: 404,
+            message: 'No se encontro la imagen',
+            imageName: imageName,
+            name: 'NotFound',
+          })
+          .end();
+      }
+    });
   }
 }

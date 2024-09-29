@@ -1,18 +1,29 @@
 import {
   Controller,
+  Get,
+  Param,
   Post,
   Req,
+  Res,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { FilesService } from './files.service';
 import { fileImageMulter } from './helpers';
 
 @Controller('files')
 export class FilesController {
+  /**
+   * Constructor
+   * @param {FilesService} filesService Servicio
+   */
   constructor(private readonly filesService: FilesService) {}
+  @Get('image/:imageName')
+  findImage(@Res() res: Response, @Param('imageName') imageName: string) {
+    this.filesService.getStaticImage(res, imageName);
+  }
   /**
    * Subir una imagen
    * @param {Request} req Solicitud
