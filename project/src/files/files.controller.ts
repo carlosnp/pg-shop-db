@@ -20,6 +20,11 @@ export class FilesController {
    * @param {FilesService} filesService Servicio
    */
   constructor(private readonly filesService: FilesService) {}
+  /**
+   * Obtiene la imagen
+   * @param {Response} res respuesta
+   * @param {string} imageName Nombre de la imagen
+   */
   @Get('image/:imageName')
   findImage(@Res() res: Response, @Param('imageName') imageName: string) {
     this.filesService.getStaticImage(res, imageName);

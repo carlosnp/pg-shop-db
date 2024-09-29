@@ -5,9 +5,15 @@ import { LOGGER_NAME } from './constants';
 import { UploadImagePayload } from './payload';
 import { join } from 'path';
 import { DIR_IMAGES } from './helpers';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class FilesService {
+  /**
+   * constructor
+   * @param {ConfigService} configService
+   */
+  constructor(private readonly configService: ConfigService) {}
   /**
    * Instancia para el registro de eventos
    */
@@ -57,7 +63,8 @@ export class FilesService {
       this.logger.error(error);
       return { error };
     }
-    const secureUrl = `${file.filename}`;
+    const fullUrl = this.getfullUrl(req).replace('upload', 'image');
+    const secureUrl = `${fullUrl}/${file.filename}`;
     return { entity: secureUrl };
   }
   /**

@@ -1,14 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { optionsCors } from './cors';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
+  const prefix = 'api';
+  const logger = new Logger('MAIN');
   const app = await NestFactory.create(AppModule);
   /** Habilitamos CORS y su configuracion */
   app.enableCors(optionsCors);
   /** Prefijo global */
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix(prefix);
   /** Con guración global de pipes */
   app.useGlobalPipes(
     // Validadores
@@ -17,6 +19,8 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-  await app.listen(3000);
+  await app.listen(process.env.PORT);
+  logger.log(`App running on PORT: ${process.env.PORT}`);
+  logger.log(`App HOST: ${process.env.HOST_API}/${prefix}`);
 }
 bootstrap();
