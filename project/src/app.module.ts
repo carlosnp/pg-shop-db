@@ -8,6 +8,7 @@ import { PgShopModule } from './pg-shop';
 import { ProductsModule } from './products';
 import { SeedModule } from './seed';
 import { FilesModule } from './files';
+import { AuthModule } from './auth';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { FilesModule } from './files';
     ProductsModule,
     SeedModule,
     FilesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
