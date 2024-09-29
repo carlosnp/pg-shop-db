@@ -30,7 +30,7 @@ export class SeedService {
     const result = await Promise.all(insertP);
     const entities = result.map((item) => item.entity);
     const errors = result.filter((item) => !!item.error);
-    this.logger.verbose('Finalizo la carga de la base de datos');
+    this.logger.log('Finalizo la carga de la base de datos');
     return { entities, errors };
   }
   /**

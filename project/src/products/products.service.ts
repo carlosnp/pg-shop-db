@@ -66,7 +66,7 @@ export class ProductsService {
     const list = await this.productRepository.find();
     const total = list.length;
     const result: ListPayload = { total, list };
-    this.logger.verbose('Productos listados');
+    this.logger.log('Productos listados');
     return result;
   }
   /**
@@ -80,7 +80,7 @@ export class ProductsService {
       take: limit,
       skip: offset,
     });
-    this.logger.verbose('Productos paginados');
+    this.logger.log('Productos paginados');
     return list;
   }
   /**
@@ -93,7 +93,7 @@ export class ProductsService {
     if (!find) {
       throw new NotFoundException(`Product with ID ${id} not found`);
     }
-    this.logger.verbose('Producto encontrado');
+    this.logger.log('Producto encontrado');
     return find;
   }
   /**
@@ -116,7 +116,7 @@ export class ProductsService {
         `Product with term ->> ${term} <-- not found`,
       );
     }
-    this.logger.verbose('Producto encontrado');
+    this.logger.log('Producto encontrado');
     return find;
   }
   /**
@@ -178,7 +178,7 @@ export class ProductsService {
         `Product with term ->> ${term} <-- not found`,
       );
     }
-    this.logger.verbose('Producto encontrado');
+    this.logger.log('Producto encontrado');
     return find;
   }
   /**
@@ -249,7 +249,7 @@ export class ProductsService {
       await queryRunner.commitTransaction();
       /** Libera el query runner */
       await queryRunner.release();
-      this.logger.verbose('Producto actualizado');
+      this.logger.log('Producto actualizado');
       return { id: result.id, entity: result };
     } catch (error) {
       /** Regresamos los cambios */
@@ -268,7 +268,7 @@ export class ProductsService {
   async remove(id: string): Promise<DeletedPayload> {
     const find = await this.findById(id);
     const result = await this.productRepository.remove(find);
-    this.logger.verbose('Producto eliminado');
+    this.logger.log('Producto eliminado');
     return result;
   }
   /**
