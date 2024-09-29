@@ -38,15 +38,16 @@ export class FilesService {
     req: Request,
     file: Express.Multer.File,
   ): UploadImagePayload {
-    const fullUrl = this.getfullUrl(req);
-    const metadata = this.getMetadata(req);
-    console.log('\n fullUrl', fullUrl);
-    console.log('\n metadata', metadata);
+    // const fullUrl = this.getfullUrl(req);
+    // const metadata = this.getMetadata(req);
+    // console.log('\n fullUrl', fullUrl);
+    // console.log('\n metadata', metadata);
     if (!file) {
       const error = new EmptyFileException();
       this.logger.error(error);
       return { error };
     }
-    return { entity: file.originalname };
+    const secureUrl = `${file.filename}`;
+    return { entity: secureUrl };
   }
 }

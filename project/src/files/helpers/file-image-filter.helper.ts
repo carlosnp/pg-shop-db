@@ -13,18 +13,18 @@ interface CallbackModel {
 }
 
 /**
- * Filtro para archivos de imagenes
+ * Filtra los archivos de imagenes
  * @param {Express.Request} req
  * @param {Express.Multer.File} file
  * @param {CallbackModel} callback
  */
-export const fileImageFilter = (
+export const fileImageFilterHelper = (
   req: Express.Request,
   file: Express.Multer.File,
   callback: CallbackModel,
 ) => {
   const logger = new Logger(LOGGER_NAME);
-  console.log('ENTRO EN EL FILTRO', JSON.stringify(file, null, 2));
+  // console.log('ENTRO EN EL FILTRO', JSON.stringify(file, null, 2));
   if (!file) {
     const error = new EmptyFileException();
     logger.error(error);
