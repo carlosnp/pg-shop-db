@@ -74,6 +74,7 @@ export class FilesService {
   public getStaticImage(res: Response, imageName: string) {
     /** Ruta del archivo local */
     const localPath = this.getPathFile(imageName, DIR_IMAGES);
+    this.logger.log(`Local path image: ${localPath}`);
     res.sendFile(localPath, {}, function (err: Error) {
       if (err) {
         res
