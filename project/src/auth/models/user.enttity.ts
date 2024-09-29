@@ -28,7 +28,7 @@ export interface UserBase {
   isActive: boolean;
 }
 
-export interface ProductModelBase extends UserBase {
+export interface UserModelBase extends UserBase {
   /**
    * Roles
    */
@@ -38,6 +38,6 @@ export interface ProductModelBase extends UserBase {
 /**
  * Modelo del Usuario
  */
-export interface ProductModel extends ProductModelBase {
+export interface UserModel extends UserModelBase {
   id: string;
 }

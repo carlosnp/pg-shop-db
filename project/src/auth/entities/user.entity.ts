@@ -1,5 +1,27 @@
 import { BasicWithUuidEntity } from 'src/pg-shop';
-import { Entity } from 'typeorm';
+import { Column, Entity } from 'typeorm';
+import { UserModel } from '../models';
 
 @Entity({ name: 'users' })
-export class User extends BasicWithUuidEntity {}
+export class User extends BasicWithUuidEntity implements UserModel {
+  @Column({ type: 'text' })
+  firstName: string;
+
+  @Column({ type: 'text' })
+  lastName: string;
+
+  @Column({ type: 'text', unique: true })
+  email: string;
+
+  @Column({ type: 'text', nullable: true })
+  phone?: string;
+
+  @Column({ type: 'text' })
+  password: string;
+
+  @Column({ type: 'bool' })
+  isActive: boolean;
+
+  @Column({ type: 'text', array: true, default: ['user'] })
+  roles: string[];
+}
