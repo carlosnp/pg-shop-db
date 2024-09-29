@@ -3,36 +3,47 @@ GET http://localhost:3000/api
 
 ### Lista de productos
 GET http://localhost:3000/api/products
+Content-Type: application/json
 
 ### Lista paginada de productos
 GET http://localhost:3000/api/products/pag?limit=2
+Content-Type: application/json
 
 ### Lista filtrada de productos por titulo
 GET http://localhost:3000/api/products/by-title?name=queso
+Content-Type: application/json
 
 ### Lista filtrada de productos por precio
 GET http://localhost:3000/api/products/by-price?price=8&operator=GT
+Content-Type: application/json
 
 ### Obtener un producto
 GET http://localhost:3000/api/products/16e16110-f44f-44f2-b1c0-5a97e9d8148c
+Content-Type: application/json
 
 ### Obtener un producto por TERM: Uuid
 GET http://localhost:3000/api/products/term/a84af8af-54b9-4185-be9b-f5421a8e06d9
+Content-Type: application/json
 
 ### Obtener un producto por TERM: slug
 GET http://localhost:3000/api/products/term/queso_mozzarella
+Content-Type: application/json
 
 ### Obtener un producto por TEXTO: Uuid
 GET http://localhost:3000/api/products/text/a84af8af-54b9-4185-be9b-f5421a8e06d9
+Content-Type: application/json
 
 ### Obtener un producto por TEXTO: slug
 GET http://localhost:3000/api/products/text/queso_mozzarella
+Content-Type: application/json
 
 ### Obtener un producto por TEXTO: titulo
 GET http://localhost:3000/api/products/text/Queso telita
+Content-Type: application/json
 
 ### Eliminar un producto
 DELETE  http://localhost:3000/api/products/be18e6c1-af8a-4016-ad0e-a57a0842148e
+Content-Type: application/json
 
 ### Crear un producto
 POST http://localhost:3000/api/products
