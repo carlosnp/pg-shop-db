@@ -1,13 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Request } from 'express';
 import { EmptyFileException } from './provider-exceptions';
+import { LOGGER_NAME } from './constants';
+import { UploadImagePayload } from './payload';
 
 @Injectable()
 export class FilesService {
   /**
    * Instancia para el registro de eventos
    */
-  private readonly logger = new Logger('FilesService');
+  private readonly logger = new Logger(LOGGER_NAME);
   /**
    * Obtiene la url completa
    * @param {Request} req Solicitud
@@ -32,7 +34,10 @@ export class FilesService {
    * @param {Express.Multer.File} file Archivo
    * @returns
    */
-  public uploadImageFile(req: Request, file: Express.Multer.File) {
+  public uploadImageFile(
+    req: Request,
+    file: Express.Multer.File,
+  ): UploadImagePayload {
     const fullUrl = this.getfullUrl(req);
     const metadata = this.getMetadata(req);
     console.log('\n fullUrl', fullUrl);
@@ -40,8 +45,8 @@ export class FilesService {
     if (!file) {
       const error = new EmptyFileException();
       this.logger.error(error);
-      return error;
+      return { error };
     }
-    return file.originalname;
+    return { entity: file.originalname };
   }
 }

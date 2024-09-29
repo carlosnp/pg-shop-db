@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { IMAGE_MIME_TYPES } from '../constants';
+import { IMAGE_MIME_TYPES, LOGGER_NAME } from '../constants';
 import {
   EmptyFileException,
   InvalidFileTypeException,
@@ -18,12 +18,12 @@ interface CallbackModel {
  * @param {Express.Multer.File} file
  * @param {CallbackModel} callback
  */
-export const fileFilterImage = (
+export const fileImageFilter = (
   req: Express.Request,
   file: Express.Multer.File,
   callback: CallbackModel,
 ) => {
-  const logger = new Logger('FilesService');
+  const logger = new Logger(LOGGER_NAME);
   console.log('ENTRO EN EL FILTRO', JSON.stringify(file, null, 2));
   if (!file) {
     const error = new EmptyFileException();
