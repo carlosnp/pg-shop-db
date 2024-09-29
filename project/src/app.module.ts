@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { PgShopModule } from './pg-shop';
 import { ProductsModule } from './products';
 import { SeedModule } from './seed';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { SeedModule } from './seed';
     PgShopModule,
     ProductsModule,
     SeedModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
