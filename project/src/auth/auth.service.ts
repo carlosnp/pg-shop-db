@@ -7,9 +7,10 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
+import { DataSource, DeleteResult, Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from './entities';
-import { DataSource, DeleteResult, Repository } from 'typeorm';
 import {
   CreatedUserPayload,
   DeletedUserPayload,
@@ -77,6 +78,7 @@ export class AuthService {
     try {
       const build = this.userRepository.create(createUserDto);
       const result = await this.userRepository.save(build);
+      this.logger.verbose('Usuario creado');
       return { id: result.id, entity: result };
     } catch (error) {
       const handlerError = this.handleDBExceptions(error);
@@ -129,6 +131,18 @@ export class AuthService {
     } catch (error) {
       this.handleDBExceptions(error);
     }
+  }
+  /**
+   * Encriptar data
+   * @param {string | Buffer} data Data
+   * @param {string | number} saltOrRounds 
+   * @returns {string} Data encriptada
+   */
+  private encrypt(
+    data: string | Buffer,
+    saltOrRounds: string | number = 10,
+  ): string {
+    return bcrypt.hashSync(data, saltOrRounds);
   }
   /**
    * Manejo de errores

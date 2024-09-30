@@ -25,7 +25,9 @@ export interface UserBase {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface UserModelCreate extends UserBase {}
+export interface UserModelCreate extends UserBase {
+  roles?: string[];
+}
 
 export interface UserModelBase extends UserBase {
   /**
