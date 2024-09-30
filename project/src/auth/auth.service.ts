@@ -76,7 +76,11 @@ export class AuthService {
    */
   async create(createUserDto: CreateUserDto): Promise<CreatedUserPayload> {
     try {
-      const build = this.userRepository.create(createUserDto);
+      const { password, ...userData } = createUserDto;
+      const build = this.userRepository.create({
+        ...userData,
+        password: this.encrypt(password),
+      });
       const result = await this.userRepository.save(build);
       this.logger.verbose('Usuario creado');
       return { id: result.id, entity: result };
@@ -135,7 +139,7 @@ export class AuthService {
   /**
    * Encriptar data
    * @param {string | Buffer} data Data
-   * @param {string | number} saltOrRounds 
+   * @param {string | number} saltOrRounds
    * @returns {string} Data encriptada
    */
   private encrypt(

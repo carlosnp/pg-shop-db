@@ -16,7 +16,7 @@ export class User extends BasicWithUuidEntity implements UserModel {
   @Column({ type: 'text', nullable: true })
   phone?: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', select: false })
   password: string;
 
   @Column({ type: 'bool', default: true })

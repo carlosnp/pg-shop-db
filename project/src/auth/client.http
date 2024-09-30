@@ -10,7 +10,7 @@ Content-Type: application/json
 
 ### Obtener un usuario
 # @name findById
-GET {{host}}/919b6fae-17cb-4258-83bb-5466c56648d1 HTTP/1.1
+GET {{host}}/a9505f3c-b9d6-4b25-99c1-83631656549d HTTP/1.1
 Content-Type: application/json
 
 ### Crear usuario
@@ -27,7 +27,7 @@ Content-Type: application/json
 }
 
 ### Actualizar usuario
-PATCH {{host}}/55a1f7f3-1b8e-48dc-a190-45fd846640cf HTTP/1.1
+PATCH {{host}}/a9505f3c-b9d6-4b25-99c1-83631656549d HTTP/1.1
 Content-Type: application/json
 
 {
