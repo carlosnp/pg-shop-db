@@ -1,4 +1,5 @@
 import {
+  IsEmail,
   IsOptional,
   IsString,
   Matches,
@@ -6,14 +7,10 @@ import {
   MinLength,
 } from 'class-validator';
 import { UserModelCreate } from '../models';
-import {
-  REGEX_PASSWORD,
-  REGEX_PASSWORD_MESSAGE,
-  REGEX_PHONE_MESSAGE,
-  REGEX_PHONE_VE,
-} from '../helpers';
+import { REGEX_PHONE_MESSAGE, REGEX_PHONE_VE } from '../helpers';
+import { PasswordDto } from './password.dto';
 
-export class CreateUserDto implements UserModelCreate {
+export class CreateUserDto extends PasswordDto implements UserModelCreate {
   @IsString()
   @MinLength(1)
   @MaxLength(30)
@@ -25,6 +22,7 @@ export class CreateUserDto implements UserModelCreate {
   lastName: string;
 
   @IsString()
+  @IsEmail()
   email: string;
 
   @IsString()
@@ -35,12 +33,4 @@ export class CreateUserDto implements UserModelCreate {
   })
   @IsOptional()
   phone?: string;
-
-  @IsString()
-  @MinLength(6)
-  @MaxLength(10)
-  @Matches(REGEX_PASSWORD, {
-    message: REGEX_PASSWORD_MESSAGE,
-  })
-  password: string;
 }

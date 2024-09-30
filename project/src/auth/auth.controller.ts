@@ -9,7 +9,7 @@ import {
   ParseUUIDPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { CreateUserDto, LoginDto, UpdateUserDto } from './dto';
 import {
   DeletedUserPayload,
   FindUserPayload,
@@ -35,6 +35,15 @@ export class AuthController {
   @Get(':id')
   findById(@Param('id', ParseUUIDPipe) id: string): Promise<FindUserPayload> {
     return this.authService.findById(id);
+  }
+  /**
+   * Iniciar sesión
+   * @param {LoginDto} loginDto
+   * @returns
+   */
+  @Post('login')
+  login(@Body() loginDto: LoginDto) {
+    return this.authService.login(loginDto);
   }
   /**
    * Crear/registrar un usuario

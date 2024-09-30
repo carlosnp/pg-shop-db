@@ -4,12 +4,13 @@ import {
   InternalServerErrorException,
   Logger,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { CreateUserDto, LoginDto, UpdateUserDto } from './dto';
 import { User } from './entities';
 import {
   CreatedUserPayload,
@@ -64,6 +65,20 @@ export class AuthService {
     const find = await this.userRepository.findOneBy({ id });
     if (!find) {
       const error = this.handleDBExceptions(null, null, id);
+      return { error };
+    }
+    this.logger.log('Usuario encontrado');
+    return { id: find.id, entity: find };
+  }
+  /**
+   * Encontrar usuario por email
+   * @param {string} email Email
+   * @returns {Promise<FindUserPayload>}
+   */
+  async findByEmail(email: string): Promise<FindUserPayload> {
+    const find = await this.userRepository.findOneBy({ email });
+    if (!find) {
+      const error = this.handleDBExceptions(null, null, email);
       return { error };
     }
     this.logger.log('Usuario encontrado');
@@ -137,6 +152,30 @@ export class AuthService {
     }
   }
   /**
+   * iniciar sesión
+   * @param {LoginDto} loginDto
+   */
+  async login(loginDto: LoginDto) {
+    const { email, password } = loginDto;
+    const user = await this.userRepository.findOne({
+      where: { email },
+      select: { email: true, password: true },
+    });
+    if (!user || !this.validEncrypt(password, user.password)) {
+      throw new UnauthorizedException('Credentials are not valid');
+    }
+    return { email: user.email };
+  }
+  /**
+   * Compara una valor contra un valor encriptado
+   * @param {string} value Valor
+   * @param {string} encryptValue Valor encriptado
+   * @returns {boolean}
+   */
+  private validEncrypt(value: string, encryptValue: string): boolean {
+    return bcrypt.compareSync(value, encryptValue);
+  }
+  /**
    * Encriptar data
    * @param {string | Buffer} data Data
    * @param {string | number} saltOrRounds
@@ -166,7 +205,7 @@ export class AuthService {
    */
   private buildError(error: any, entity?: any, id?: string) {
     if (!error && !entity && id) {
-      return new NotFoundException(`User with ID ${id} not found`);
+      return new NotFoundException(`User with ${id} not found`);
     }
     if (error.code === '23505') {
       return new BadRequestException(error.detail);
