@@ -5,11 +5,11 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from './entities';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ConfigService } from '@nestjs/config';
 import {
   CreatedUserPayload,
   DeletedUserPayload,
