@@ -15,6 +15,7 @@ import {
   DeletedUserPayload,
   FindUserPayload,
   ListUserPayload,
+  UpdatedUserPayload,
 } from './payloads';
 
 @Injectable()
@@ -61,8 +62,7 @@ export class AuthService {
   async findById(id: string): Promise<FindUserPayload> {
     const find = await this.userRepository.findOneBy({ id });
     if (!find) {
-      const error = new NotFoundException(`User with ID ${id} not found`);
-      this.logger.error(error);
+      const error = this.handleDBExceptions(null, null, id);
       return { error };
     }
     this.logger.log('Usuario encontrado');
@@ -83,9 +83,28 @@ export class AuthService {
       return { error: handlerError };
     }
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} auth`;
+  /**
+   * Actualizar Usuario
+   * @param {string} id Identificador del usuario
+   * @param {UpdateUserDto} updateUserDto
+   * @returns { Promise<UpdatedUserPayload> }
+   */
+  async update(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UpdatedUserPayload> {
+    try {
+      const build = await this.userRepository.preload({ id, ...updateUserDto });
+      if (!build) {
+        const error = this.handleDBExceptions(null, null, id);
+        return { error };
+      }
+      const result = await this.userRepository.save(build);
+      return { id: result.id, entity: result };
+    } catch (error) {
+      const handlerError = this.handleDBExceptions(error);
+      return { error: handlerError };
+    }
   }
   /**
    * Eliminar usuario
@@ -115,14 +134,22 @@ export class AuthService {
    * Manejo de errores
    * @param {any} error Error
    */
-  private handleDBExceptions(error: any) {
-    // console.log(
-    //   '\n INIT-----------',
-    //   JSON.stringify(error, null, 2),
-    //   '\n -----------END',
-    // );
+  private handleDBExceptions(error: any, entity?: any, id?: string) {
+    const buildError = this.buildError(error, entity, id);
     /** Se imprim el error en el terminal */
-    this.logger.error(error);
+    this.logger.error(buildError);
+    return buildError;
+  }
+  /**
+   * Construye el error
+   * @param error
+   * @param entity
+   * @param id
+   */
+  private buildError(error: any, entity?: any, id?: string) {
+    if (!error && !entity && id) {
+      return new NotFoundException(`User with ID ${id} not found`);
+    }
     if (error.code === '23505') {
       return new BadRequestException(error.detail);
     }
