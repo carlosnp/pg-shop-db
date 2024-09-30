@@ -15,10 +15,11 @@ export class SeedService {
    */
   constructor(private readonly productsService: ProductsService) {}
   /**
-   * Ejecuta el seed
+   * Semilla de productos
+   * @returns
    */
-  async runSeed() {
-    await this.deleteDB();
+  private async runSeedProducts() {
+    await this.deleteProductsDB();
     const products = [...seedProducts];
 
     const insertP: Promise<CreatedPayload>[] = [];
@@ -30,14 +31,21 @@ export class SeedService {
     const result = await Promise.all(insertP);
     const entities = result.map((item) => item.entity);
     const errors = result.filter((item) => !!item.error);
-    this.logger.log('Finalizo la carga de la base de datos');
+    this.logger.log('Finalizo la carga de Productos');
     return { entities, errors };
+  }
+  /**
+   * Ejecuta el seed
+   */
+  async runSeed() {
+    const productsSeed = this.runSeedProducts();
+    return { products: productsSeed };
   }
   /**
    * Elimina la base de datos
    * @returns {Promise<boolean>}
    */
-  async deleteDB(): Promise<DeleteResult> {
+  async deleteProductsDB(): Promise<DeleteResult> {
     const remove = await this.productsService.removeAll();
     return remove;
   }

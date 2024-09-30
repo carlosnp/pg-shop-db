@@ -19,7 +19,7 @@ export class User extends BasicWithUuidEntity implements UserModel {
   @Column({ type: 'text' })
   password: string;
 
-  @Column({ type: 'bool' })
+  @Column({ type: 'bool', default: true })
   isActive: boolean;
 
   @Column({ type: 'text', array: true, default: ['user'] })

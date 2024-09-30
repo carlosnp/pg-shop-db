@@ -6,37 +6,65 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { CreateUserDto, UpdateUserDto } from './dto';
+import {
+  DeletedUserPayload,
+  FindUserPayload,
+  ListUserPayload,
+} from './payloads';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
-  }
-
+  /**
+   * Listar todos
+   * @returns { Promise<ListUserPayload>}
+   */
   @Get()
-  findAll() {
-    return this.authService.findAll();
+  getAll(): Promise<ListUserPayload> {
+    return this.authService.getAll();
   }
-
+  /**
+   * Encontrar por Id
+   * @param {string} id Id
+   * @returns {Promise<FindUserPayload>}
+   */
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
+  findById(@Param('id', ParseUUIDPipe) id: string): Promise<FindUserPayload> {
+    return this.authService.findById(id);
   }
-
+  /**
+   * Crear/registrar un usuario
+   * @param {CreateUserDto} createUserDto
+   * @returns
+   */
+  @Post('register')
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.authService.create(createUserDto);
+  }
+  /**
+   * Actualizar usuario
+   * @param {string} id Id
+   * @param {UpdateUserDto} updateUserDto
+   * @returns
+   */
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.authService.update(id, updateUserDto);
   }
-
+  /**
+   * Eliminar usuario
+   * @param {string} id Id
+   * @returns {Promise<DeletedUserPayload>}
+   */
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeletedUserPayload> {
+    return this.authService.remove(id);
   }
 }

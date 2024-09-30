@@ -22,13 +22,16 @@ export interface UserBase {
    * Constraseña
    */
   password: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface UserModelCreate extends UserBase {}
+
+export interface UserModelBase extends UserBase {
   /**
    * Esta activo
    */
   isActive: boolean;
-}
-
-export interface UserModelBase extends UserBase {
   /**
    * Roles
    */

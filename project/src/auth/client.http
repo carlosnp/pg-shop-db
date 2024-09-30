@@ -1,0 +1,37 @@
+@hostname = http://localhost
+@port = 3000
+@controller = auth
+@host = {{hostname}}:{{port}}/api/{{controller}}
+
+### Lista de usuarios
+# @name getAll
+GET {{host}} HTTP/1.1
+Content-Type: application/json
+
+### Obtener un usuario
+# @name findById
+@user_id=4f002b2d-2e04-481d-bcf1-79c0f4ef2145
+GET {{host}}/{{user_id}} HTTP/1.1
+Content-Type: application/json
+
+### Crear usuario
+# @name createUser
+POST {{host}}/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "firstName": "root 4",
+  "lastName": "admin",
+  "email": "root4.admin@email.com",
+  "phone": "04121234567",
+  "password": "Carro12+"
+}
+
+### Actualizar usuario
+PATCH {{host}}/be18e6c1-af8a-4016-ad0e-a57a0842148e HTTP/1.1
+Content-Type: application/json
+
+### Eliminar usuario
+@user_id=4f002b2d-2e04-481d-bcf1-79c0f4ef2145
+DELETE {{host}}/{{user_id}} HTTP/1.1
+Content-Type: application/json

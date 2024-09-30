@@ -11,11 +11,4 @@ export class SeedController {
   runSeed() {
     return this.seedService.runSeed();
   }
-  /**
-   * Limpiar DB
-   */
-  @Get('clean')
-  cleanDB() {
-    return this.seedService.deleteDB();
-  }
 }
