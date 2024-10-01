@@ -6,8 +6,8 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto, LoginDto, UpdateUserDto } from './dto';
@@ -19,6 +19,7 @@ import {
   ListUserPayload,
   UpdatedUserPayload,
 } from './payloads';
+import { JwtPayload } from './models';
 
 @Injectable()
 export class AuthService {
@@ -38,6 +39,22 @@ export class AuthService {
     private readonly dataSource: DataSource,
     private readonly configService: ConfigService,
   ) {}
+  /**
+   * Valida el usuario
+   * @param {JwtPayload} payload
+   * @returns {Promise<User>}
+   */
+  async validateJwt(payload: JwtPayload): Promise<User> {
+    const { email } = payload;
+    const user = await this.userRepository.findOneBy({ email });
+    if (!user) {
+      throw new UnauthorizedException('Token not valid');
+    }
+    if (!user.isActive) {
+      throw new UnauthorizedException('User is inactive, talk with an admin');
+    }
+    return user;
+  }
   /**
    * Listar usuarios registrados
    * @returns { Promise<ListUserPayload> }
