@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
+import { JwtService } from '@nestjs/jwt';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto, LoginDto, UpdateUserDto } from './dto';
@@ -32,12 +33,14 @@ export class AuthService {
    * @param {Repository<User>} userRepository
    * @param {DataSource} dataSource
    * @param {ConfigService} configService
+   * @param {JwtService} jwtService
    */
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly dataSource: DataSource,
     private readonly configService: ConfigService,
+    private readonly jwtService: JwtService,
   ) {}
   /**
    * Valida el usuario
@@ -176,12 +179,24 @@ export class AuthService {
     const { email, password } = loginDto;
     const user = await this.userRepository.findOne({
       where: { email },
-      select: { email: true, password: true },
+      select: {
+        email: true,
+        password: true,
+        id: true,
+        firstName: true,
+        lastName: true,
+      },
     });
     if (!user || !this.validEncrypt(password, user.password)) {
       throw new UnauthorizedException('Credentials are not valid');
     }
-    return { email: user.email };
+    console.log('login user', JSON.stringify(user, null, 2));
+    const token = this.getJwtToken({
+      id: user.id,
+      email: user.email,
+      fullName: user.fullName,
+    });
+    return { id: user.id, email: user.email, token };
   }
   /**
    * Compara una valor contra un valor encriptado
@@ -203,6 +218,16 @@ export class AuthService {
     saltOrRounds: string | number = 10,
   ): string {
     return bcrypt.hashSync(data, saltOrRounds);
+  }
+  /**
+   * Genera el token
+   * @param {JwtPayload} payload
+   * @returns {string}
+   */
+  private getJwtToken(payload: JwtPayload): string {
+    const token = this.jwtService.sign(payload);
+    console.log('token', token);
+    return token;
   }
   /**
    * Manejo de errores

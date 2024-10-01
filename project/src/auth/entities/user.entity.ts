@@ -1,5 +1,5 @@
 import { BasicWithUuidEntity } from 'src/pg-shop';
-import { AfterLoad, Column, Entity } from 'typeorm';
+import { AfterLoad, BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 import { UserModel } from '../models';
 
 @Entity({ name: 'users' })
@@ -24,11 +24,31 @@ export class User extends BasicWithUuidEntity implements UserModel {
 
   @Column({ type: 'text', array: true, default: ['user'] })
   roles: string[];
-
+  /**
+   * Nombre completo
+   */
   fullName: string;
-
+  /**
+   * Token
+   */
+  token?: string;
+  /**
+   * Construye el nombre completo
+   */
   @AfterLoad()
   getFullName() {
     this.fullName = `${this.firstName} ${this.lastName}`;
+  }
+
+  @BeforeInsert()
+  checkFieldsBeforeInsert() {
+    this.email = this.email.toLowerCase().trim();
+    this.firstName = this.firstName.toLowerCase().trim();
+    this.lastName = this.lastName.toLowerCase().trim();
+  }
+
+  @BeforeUpdate()
+  checkFieldsBeforeUpdate() {
+    this.checkFieldsBeforeInsert();
   }
 }
