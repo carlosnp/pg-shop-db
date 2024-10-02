@@ -190,7 +190,6 @@ export class AuthService {
     if (!user || !this.validEncrypt(password, user.password)) {
       throw new UnauthorizedException('Credentials are not valid');
     }
-    console.log('login user', JSON.stringify(user, null, 2));
     const token = this.getJwtToken({
       id: user.id,
       email: user.email,

@@ -7,7 +7,9 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { CreateUserDto, LoginDto, UpdateUserDto } from './dto';
 import {
@@ -35,6 +37,14 @@ export class AuthController {
   @Get(':id')
   findById(@Param('id', ParseUUIDPipe) id: string): Promise<FindUserPayload> {
     return this.authService.findById(id);
+  }
+  /**
+   * Ruta privada
+   */
+  @Get('private/user')
+  @UseGuards(AuthGuard())
+  testPrivate() {
+    return 'Hola mundo';
   }
   /**
    * Iniciar sesión
