@@ -11,11 +11,12 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
-import { CreateUserDto, LoginDto, UpdateUserDto } from './dto';
+import { ChangeStatusDto, CreateUserDto, LoginDto, UpdateUserDto } from './dto';
 import {
   DeletedUserPayload,
   FindUserPayload,
   ListUserPayload,
+  UpdatedUserPayload,
 } from './payloads';
 
 @Controller('auth')
@@ -76,6 +77,19 @@ export class AuthController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     return this.authService.update(id, updateUserDto);
+  }
+  /**
+   * Cambiar status del usuario
+   * @param {string} id Identificador del usuario
+   * @param {ChangeStatusDto} input
+   * @returns { Promise<UpdatedUserPayload> }
+   */
+  @Patch('status/:id')
+  changeStatus(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() input: ChangeStatusDto,
+  ): Promise<UpdatedUserPayload> {
+    return this.authService.changeStatus(id, input.isActive);
   }
   /**
    * Eliminar usuario

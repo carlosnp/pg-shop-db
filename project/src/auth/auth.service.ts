@@ -148,6 +148,28 @@ export class AuthService {
     }
   }
   /**
+   * Cambiar status del usuario
+   * @param {string} id Identificador del usuario
+   * @param {boolean} isActive Status
+   * @returns { Promise<UpdatedUserPayload> }
+   */
+  async changeStatus(
+    id: string,
+    isActive: boolean,
+  ): Promise<UpdatedUserPayload> {
+    try {
+      console.log('\nisActive', isActive);
+      const build = await this.findById(id);
+      const user = build.entity;
+      user.isActive = isActive;
+      const result = await this.userRepository.save(user);
+      return { id: result.id, entity: result };
+    } catch (error) {
+      const handlerError = this.handleDBExceptions(error);
+      return { error: handlerError };
+    }
+  }
+  /**
    * Eliminar usuario
    * @param {string} id Identificador del usuario
    * @returns {Promise<DeletedUserPayload>}
