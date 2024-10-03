@@ -158,10 +158,46 @@ export class AuthService {
     isActive: boolean,
   ): Promise<UpdatedUserPayload> {
     try {
-      console.log('\nisActive', isActive);
       const build = await this.findById(id);
       const user = build.entity;
       user.isActive = isActive;
+      const result = await this.userRepository.save(user);
+      return { id: result.id, entity: result };
+    } catch (error) {
+      const handlerError = this.handleDBExceptions(error);
+      return { error: handlerError };
+    }
+  }
+  /**
+   * Agregar un rol a un usuario
+   * @param {string} id Identificador del usuario
+   * @param {string} role Role
+   * @returns { Promise<UpdatedUserPayload> }
+   */
+  async addRole(id: string, role: string): Promise<UpdatedUserPayload> {
+    try {
+      const build = await this.findById(id);
+      const user = build.entity;
+      const roles = [role, ...user.roles];
+      user.roles = roles;
+      const result = await this.userRepository.save(user);
+      return { id: result.id, entity: result };
+    } catch (error) {
+      const handlerError = this.handleDBExceptions(error);
+      return { error: handlerError };
+    }
+  }
+  /**
+   * Cambiar los roles del usuario
+   * @param {string} id Identificador del usuario
+   * @param {string[]} roles Roles
+   * @returns { Promise<UpdatedUserPayload> }
+   */
+  async changeRoles(id: string, roles: string[]): Promise<UpdatedUserPayload> {
+    try {
+      const build = await this.findById(id);
+      const user = build.entity;
+      user.roles = roles;
       const result = await this.userRepository.save(user);
       return { id: result.id, entity: result };
     } catch (error) {

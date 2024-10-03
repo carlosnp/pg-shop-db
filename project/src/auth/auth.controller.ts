@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
-import { ChangeStatusDto, CreateUserDto, LoginDto, UpdateUserDto } from './dto';
+import { AddRoleDto, ChangeRolesDto, ChangeStatusDto, CreateUserDto, LoginDto, UpdateUserDto } from './dto';
 import {
   DeletedUserPayload,
   FindUserPayload,
@@ -90,6 +90,32 @@ export class AuthController {
     @Body() input: ChangeStatusDto,
   ): Promise<UpdatedUserPayload> {
     return this.authService.changeStatus(id, input.isActive);
+  }
+  /**
+   * Agregar un rol
+   * @param {string} id Identificador del usuario
+   * @param {AddRoleDto} input
+   * @returns { Promise<UpdatedUserPayload> }
+   */
+  @Patch('roles/add/:id')
+  addRole(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() input: AddRoleDto,
+  ): Promise<UpdatedUserPayload> {
+    return this.authService.addRole(id, input.role);
+  }
+  /**
+   * Cambiar roles
+   * @param {string} id Identificador del usuario
+   * @param {ChangeRolesDto} input
+   * @returns { Promise<UpdatedUserPayload> }
+   */
+  @Patch('roles/:id')
+  changeRoles(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() input: ChangeRolesDto,
+  ): Promise<UpdatedUserPayload> {
+    return this.authService.changeRoles(id, input.roles);
   }
   /**
    * Eliminar usuario

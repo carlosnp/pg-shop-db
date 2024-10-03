@@ -1,5 +1,5 @@
-import { BasicWithUuidEntity } from 'src/pg-shop';
-import { AfterLoad, BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
+import { BasicWithUuidEntity, generateSlug } from 'src/pg-shop';
+import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 import { UserModel } from '../models';
 
 @Entity({ name: 'users' })
@@ -33,22 +33,25 @@ export class User extends BasicWithUuidEntity implements UserModel {
    */
   token?: string;
   /**
-   * Construye el nombre completo
+   * Normaliza los campos antes de crear
    */
-  @AfterLoad()
-  getFullName() {
-    this.fullName = `${this.firstName} ${this.lastName}`;
-  }
-
   @BeforeInsert()
-  checkFieldsBeforeInsert() {
+  normalizeFieldsBeforeInsert() {
+    /** Normaliza campos de texto */
     this.email = this.email.toLowerCase().trim();
     this.firstName = this.firstName.toLowerCase().trim();
     this.lastName = this.lastName.toLowerCase().trim();
+    /** Normaliza los roles */
+    const roles = this.roles.map((role) => generateSlug(role));
+    this.roles = [...new Set(roles)];
+    /** Crea el campo fullName */
+    this.fullName = `${this.firstName} ${this.lastName}`;
   }
-
+  /**
+   * Normaliza los campos antes de actualizar
+   */
   @BeforeUpdate()
-  checkFieldsBeforeUpdate() {
-    this.checkFieldsBeforeInsert();
+  normalizeFieldsBeforeUpdate() {
+    this.normalizeFieldsBeforeInsert();
   }
 }

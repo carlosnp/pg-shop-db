@@ -5,7 +5,7 @@
  */
 export const generateSlug = (text: string): string => {
   // Convertir a minúsculas
-  const lowerCase = text.toLowerCase();
+  const lowerCase = text.toLowerCase().trim();
   // Eliminar caracteres especiales y espacios
   const alphanumeric = lowerCase.replace(/[^a-z0-9]+/g, '_');
   // Eliminar guiones consecutivos
