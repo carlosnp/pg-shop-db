@@ -89,7 +89,7 @@ export class AuthController {
    * @param user
    */
   @Get('private/guard')
-  @SetMetadata('roles', ['root', 'churo'])
+  @SetMetadata('roles', ['root', 'admin'])
   @UseGuards(AuthGuard(), UserRoleGuard)
   customGuard(
     @GetCustomUser(['phone', 'roles'])
