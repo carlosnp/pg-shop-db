@@ -252,7 +252,7 @@ export class AuthService {
     const token = this.getJwtToken({
       id: user.id,
       email: user.email,
-      fullName: user.fullName,
+      fullName: `${user.firstName} ${user.lastName}`,
     });
     return { id: user.id, email: user.email, token };
   }

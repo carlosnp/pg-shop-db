@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   UseGuards,
   Headers,
+  SetMetadata,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
@@ -29,6 +30,7 @@ import {
 import { GetCustomUser, RawHeaders } from './decorators';
 import { User } from './entities';
 import { IncomingHttpHeaders } from 'http';
+import { UserRoleGuard } from './guards';
 
 @Controller('auth')
 export class AuthController {
@@ -66,7 +68,7 @@ export class AuthController {
   customDecorator(
     @GetCustomUser() user: User,
     @GetCustomUser('email') userEmail: string,
-    @GetCustomUser(['phone', 'isActive'])
+    @GetCustomUser(['phone', 'roles'])
     items: { email: string; roles: string[] },
   ) {
     return { message: 'Hola mundo', user, userEmail, items };
@@ -81,6 +83,22 @@ export class AuthController {
     @Headers() headers: IncomingHttpHeaders,
   ) {
     return { message: 'HEADERS del request', rawHeaders, headers };
+  }
+  /**
+   * Ruta con custom guard
+   * @param user
+   */
+  @Get('private/guard')
+  @SetMetadata('roles', ['root', 'churo'])
+  @UseGuards(AuthGuard(), UserRoleGuard)
+  customGuard(
+    @GetCustomUser(['phone', 'roles'])
+    user: {
+      email: string;
+      roles: string[];
+    },
+  ) {
+    return { message: 'Hola mundo', user };
   }
   /**
    * Iniciar sesión

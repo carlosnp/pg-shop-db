@@ -8,6 +8,11 @@ import { AuthService } from '../auth.service';
 
 @Injectable()
 export class JwtTokenStrategy extends PassportStrategy(Strategy) {
+  /**
+   * Constructor
+   * @param {AuthService} authService Servicio de auth
+   * @param {ConfigService} configService
+   */
   constructor(
     private readonly authService: AuthService,
     configService: ConfigService,
@@ -17,6 +22,11 @@ export class JwtTokenStrategy extends PassportStrategy(Strategy) {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }
+  /**
+   * Valida el toekn
+   * @param {JwtPayload} payload Payload
+   * @returns {Promise<User>}
+   */
   async validate(payload: JwtPayload): Promise<User> {
     const user = await this.authService.validateJwt(payload);
     return user;
