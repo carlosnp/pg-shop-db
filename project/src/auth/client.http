@@ -16,8 +16,20 @@ Content-Type: application/json
 
 
 ### Ruta privada
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE5NTA1ZjNjLWI5ZDYtNGIyNS05OWMxLTgzNjMxNjU2NTQ5ZCIsImVtYWlsIjoicm9vdC5hZG1pbkBlbWFpbC5jb20iLCJmdWxsTmFtZSI6InJvb3QgYXN0cm9sb3BpdGVjdXMiLCJpYXQiOjE3Mjc5MDIwNjgsImV4cCI6MTcyNzkwOTI2OH0.MJLmpsCMT9GidgYATQZ_q6Pf-CvDUnL45fItvFC3Glc
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE5NTA1ZjNjLWI5ZDYtNGIyNS05OWMxLTgzNjMxNjU2NTQ5ZCIsImVtYWlsIjoicm9vdC5hZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE3MjgwNjczMzUsImV4cCI6MTcyODA3NDUzNX0.ZeEZdoGJh2tErtr362W16T_y5dcpjbpAmWG5_I8rijE
 GET {{host}}/private/user HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Ruta con decorador user
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE5NTA1ZjNjLWI5ZDYtNGIyNS05OWMxLTgzNjMxNjU2NTQ5ZCIsImVtYWlsIjoicm9vdC5hZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE3MjgwNjczMzUsImV4cCI6MTcyODA3NDUzNX0.ZeEZdoGJh2tErtr362W16T_y5dcpjbpAmWG5_I8rijE
+GET {{host}}/private/decorator HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Ruta con decorador del header
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE5NTA1ZjNjLWI5ZDYtNGIyNS05OWMxLTgzNjMxNjU2NTQ5ZCIsImVtYWlsIjoicm9vdC5hZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE3MjgwNjczMzUsImV4cCI6MTcyODA3NDUzNX0.ZeEZdoGJh2tErtr362W16T_y5dcpjbpAmWG5_I8rijE
+GET {{host}}/private/headers HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

@@ -8,16 +8,27 @@ import {
   Delete,
   ParseUUIDPipe,
   UseGuards,
+  Headers,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
-import { AddRoleDto, ChangeRolesDto, ChangeStatusDto, CreateUserDto, LoginDto, UpdateUserDto } from './dto';
+import {
+  AddRoleDto,
+  ChangeRolesDto,
+  ChangeStatusDto,
+  CreateUserDto,
+  LoginDto,
+  UpdateUserDto,
+} from './dto';
 import {
   DeletedUserPayload,
   FindUserPayload,
   ListUserPayload,
   UpdatedUserPayload,
 } from './payloads';
+import { GetCustomUser, RawHeaders } from './decorators';
+import { User } from './entities';
+import { IncomingHttpHeaders } from 'http';
 
 @Controller('auth')
 export class AuthController {
@@ -46,6 +57,30 @@ export class AuthController {
   @UseGuards(AuthGuard())
   testPrivate() {
     return 'Hola mundo';
+  }
+  /**
+   * Ruta con decorador custom para el usuario
+   */
+  @Get('private/decorator')
+  @UseGuards(AuthGuard())
+  customDecorator(
+    @GetCustomUser() user: User,
+    @GetCustomUser('email') userEmail: string,
+    @GetCustomUser(['phone', 'isActive'])
+    items: { email: string; roles: string[] },
+  ) {
+    return { message: 'Hola mundo', user, userEmail, items };
+  }
+  /**
+   * Ruta con decorador custom ara los headers
+   */
+  @Get('private/headers')
+  @UseGuards(AuthGuard())
+  rawHeaders(
+    @RawHeaders() rawHeaders: string[],
+    @Headers() headers: IncomingHttpHeaders,
+  ) {
+    return { message: 'HEADERS del request', rawHeaders, headers };
   }
   /**
    * Iniciar sesión

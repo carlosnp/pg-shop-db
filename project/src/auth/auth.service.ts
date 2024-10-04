@@ -56,6 +56,7 @@ export class AuthService {
     if (!user.isActive) {
       throw new UnauthorizedException('User is inactive, talk with an admin');
     }
+    // console.log('User\n', JSON.stringify(user, null, 2));
     return user;
   }
   /**
