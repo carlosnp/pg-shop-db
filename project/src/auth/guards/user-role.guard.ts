@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { User } from '../entities';
+import { META_ROLES } from '../decorators';
 
 /**
  * Verifica si una lista de strings contiene a otra
@@ -34,7 +35,7 @@ export class UserRoleGuard implements CanActivate {
    */
   canActivate(context: ExecutionContext): boolean {
     const validRoles: string[] = this.reflector.get(
-      'roles',
+      META_ROLES,
       context.getHandler(),
     );
     /** Verificar Si se especifican roles */

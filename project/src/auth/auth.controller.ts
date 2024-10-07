@@ -27,10 +27,11 @@ import {
   ListUserPayload,
   UpdatedUserPayload,
 } from './payloads';
-import { GetCustomUser, RawHeaders } from './decorators';
+import { GetCustomUser, RawHeaders, RoleProtected } from './decorators';
 import { User } from './entities';
 import { IncomingHttpHeaders } from 'http';
 import { UserRoleGuard } from './guards';
+import { UserRoles } from './models';
 
 @Controller('auth')
 export class AuthController {
@@ -92,6 +93,22 @@ export class AuthController {
   @SetMetadata('roles', ['root', 'admin'])
   @UseGuards(AuthGuard(), UserRoleGuard)
   customGuard(
+    @GetCustomUser(['phone', 'roles'])
+    user: {
+      email: string;
+      roles: string[];
+    },
+  ) {
+    return { message: 'Hola mundo', user };
+  }
+  /**
+   * Ruta con custom decorator roles
+   * @param user
+   */
+  @Get('private/roles')
+  @RoleProtected(UserRoles.ROOT, UserRoles.ROOT)
+  @UseGuards(AuthGuard(), UserRoleGuard)
+  customRoles(
     @GetCustomUser(['phone', 'roles'])
     user: {
       email: string;
