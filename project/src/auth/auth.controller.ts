@@ -27,7 +27,7 @@ import {
   ListUserPayload,
   UpdatedUserPayload,
 } from './payloads';
-import { GetCustomUser, RawHeaders, RoleProtected } from './decorators';
+import { AuthComp, GetCustomUser, RawHeaders, RoleProtected } from './decorators';
 import { User } from './entities';
 import { IncomingHttpHeaders } from 'http';
 import { UserRoleGuard } from './guards';
@@ -109,6 +109,21 @@ export class AuthController {
   @RoleProtected(UserRoles.ROOT, UserRoles.ROOT)
   @UseGuards(AuthGuard(), UserRoleGuard)
   customRoles(
+    @GetCustomUser(['phone', 'roles'])
+    user: {
+      email: string;
+      roles: string[];
+    },
+  ) {
+    return { message: 'Hola mundo', user };
+  }
+  /**
+   * Ruta con decorador compuesto
+   * @param user
+   */
+  @Get('private/composition')
+  @AuthComp(UserRoles.ROOT, UserRoles.ADMIN)
+  compositionDecorators(
     @GetCustomUser(['phone', 'roles'])
     user: {
       email: string;
