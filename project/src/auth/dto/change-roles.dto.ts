@@ -1,10 +1,14 @@
-import { IsArray, IsString } from 'class-validator';
+import { IsArray, IsEnum } from 'class-validator';
+import { AllUserRoles, UserRoles } from '../models';
 
 export class ChangeRolesDto {
   /**
    * Roles
    */
-  @IsString({ each: true })
+  @IsEnum(AllUserRoles, {
+    each: true,
+    message: `roles must be one or more of the following values: ${AllUserRoles}`,
+  })
   @IsArray()
-  roles: string[];
+  roles: UserRoles[];
 }

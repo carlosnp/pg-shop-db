@@ -22,3 +22,7 @@ export enum UserRoles {
   // Usuario: Tiene acceso a las funcionalidades básicas de la aplicación.
   USER = 'user',
 }
+
+export type UserRolesType = `${UserRoles}`;
+
+export const AllUserRoles = [...Object.values(UserRoles)];

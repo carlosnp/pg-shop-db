@@ -128,8 +128,8 @@ export class AuthService {
   async create(createUserDto: CreateUserDto): Promise<CreatedUserPayload> {
     try {
       const { email } = createUserDto;
-      const find = await this.userRepository.findOneBy({ email });
       /** Verificamos si ya existe un usuario con ese correo */
+      const find = await this.userRepository.findOneBy({ email });
       if (find) {
         const error = new ConflictException('User already exist');
         return { error };
@@ -178,6 +178,9 @@ export class AuthService {
   ): Promise<UpdatedUserPayload> {
     try {
       const build = await this.findById(id);
+      if (build.error) {
+        return { error: build.error };
+      }
       const user = build.entity;
       user.isActive = isActive;
       const result = await this.userRepository.save(user);
@@ -196,6 +199,9 @@ export class AuthService {
   async addRole(id: string, role: string): Promise<UpdatedUserPayload> {
     try {
       const build = await this.findById(id);
+      if (build.error) {
+        return { error: build.error };
+      }
       const user = build.entity;
       const roles = [role, ...user.roles];
       user.roles = roles;
@@ -215,6 +221,9 @@ export class AuthService {
   async changeRoles(id: string, roles: string[]): Promise<UpdatedUserPayload> {
     try {
       const build = await this.findById(id);
+      if (build.error) {
+        return { error: build.error };
+      }
       const user = build.entity;
       user.roles = roles;
       const result = await this.userRepository.save(user);
@@ -231,6 +240,9 @@ export class AuthService {
    */
   async remove(id: string): Promise<DeletedUserPayload> {
     const find = await this.findById(id);
+    if (find.error) {
+      return { error: find.error };
+    }
     const result = await this.userRepository.remove(find.entity);
     this.logger.log('Producto eliminado');
     return result;

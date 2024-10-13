@@ -1,9 +1,12 @@
-import { IsString } from 'class-validator';
+import { IsEnum } from 'class-validator';
+import { AllUserRoles, UserRoles } from '../models';
 
 export class AddRoleDto {
   /**
    * Rol
    */
-  @IsString()
-  role: string;
+  @IsEnum(AllUserRoles, {
+    message: `role must be one of the following values: ${AllUserRoles}`,
+  })
+  role: UserRoles;
 }
