@@ -1,6 +1,7 @@
 import { BasicWithUuidEntity, generateSlug } from 'src/pg-shop';
-import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 import { UserModel, UserRoles } from '../models';
+import { Product } from 'src/products';
 
 @Entity({ name: 'users' })
 export class User extends BasicWithUuidEntity implements UserModel {
@@ -24,6 +25,11 @@ export class User extends BasicWithUuidEntity implements UserModel {
 
   @Column({ type: 'text', array: true })
   roles: string[];
+  /**
+   * Relacion de un usuario con productos
+   */
+  @OneToMany(() => Product, (producto) => producto.user)
+  product: Product;
   /**
    * Nombre completo
    */

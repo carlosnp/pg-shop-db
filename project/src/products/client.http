@@ -3,7 +3,7 @@
 @controller = products
 @hostBase = {{hostname}}:{{port}}/api
 @host = {{hostBase}}/{{controller}}
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFlNWRlYTQxLTFkNDQtNDk3NC1iMzBhLTJmOTU4MDFkMTkyZiIsImVtYWlsIjoicm9vdC5hZG1pbkBlbWFpbC5jb20iLCJmdWxsTmFtZSI6InJvb3QgYWRtaW4iLCJpYXQiOjE3Mjg4MjczNDIsImV4cCI6MTcyODgzNDU0Mn0.iTgrYWAKlGN3Tx4o261yQ7umFYT_CQEkIFkxmBMYIDA
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyZDVmMjE0LTY2NmEtNGE4YS1iNmI3LWYxMjEzZjA1NDI0ZSIsImVtYWlsIjoicm9vdC5hZG1pbkBlbWFpbC5jb20iLCJmdWxsTmFtZSI6InJvb3QgYWRtaW4iLCJpYXQiOjE3Mjg4NDk3NzEsImV4cCI6MTcyODg1Njk3MX0.MIVpt2ZichXSgB8iyTDOiEApCpTnHPhS3vhk0jZOn9Q
 
 
 

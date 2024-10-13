@@ -9,7 +9,7 @@ import {
   ParseUUIDPipe,
   Query,
 } from '@nestjs/common';
-import { AuthComp, UserRoles } from '../auth';
+import { AuthComp, GetCustomUser, User, UserRoles } from '../auth';
 import { ComparisonOperator, PaginationDto } from '../pg-shop';
 import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from './dto';
@@ -110,8 +110,11 @@ export class ProductsController {
    */
   @Post()
   @AuthComp(CREATE_UPDATE_ROLES, {})
-  create(@Body() createProductDto: CreateProductDto): Promise<CreatedPayload> {
-    return this.productsService.create(createProductDto);
+  create(
+    @Body() createProductDto: CreateProductDto,
+    @GetCustomUser() user: User,
+  ): Promise<CreatedPayload> {
+    return this.productsService.create(createProductDto, user);
   }
   /**
    * Actualizar
@@ -124,8 +127,9 @@ export class ProductsController {
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProductDto: UpdateProductDto,
+    @GetCustomUser() user: User,
   ): Promise<UpdatedPayload> {
-    return this.productsService.update(id, updateProductDto);
+    return this.productsService.update(id, updateProductDto, user);
   }
   /**
    * Eliminar un producto

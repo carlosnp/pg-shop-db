@@ -21,6 +21,7 @@ import {
   ListPayload,
   UpdatedPayload,
 } from './payloads';
+import { User } from 'src/auth';
 
 @Injectable()
 export class ProductsService {
@@ -184,14 +185,19 @@ export class ProductsService {
   /**
    * Crear un producto
    * @param {CreateProductDto} createProductDto
+   * @param {User} user Usuario
    * @returns {Promise<Product>} Producto
    */
-  async create(createProductDto: CreateProductDto): Promise<CreatedPayload> {
+  async create(
+    createProductDto: CreateProductDto,
+    user: User,
+  ): Promise<CreatedPayload> {
     try {
       const { images = [], ...productProps } = createProductDto;
       /** Creamos el producto */
       const product = this.productRepository.create({
         ...productProps,
+        user: user,
         images: images.map((img) =>
           this.productImageRepository.create({ url: img }),
         ),
@@ -209,11 +215,13 @@ export class ProductsService {
    * Actualizar un producto
    * @param {string} id Id del producto
    * @param {UpdateProductDto} updateProductDto Data a actualizar
+   * @param {User} user Usuario
    * @returns {Promise<Product>} Producto actualizado
    */
   async update(
     id: string,
     updateProductDto: UpdateProductDto,
+    user: User,
   ): Promise<UpdatedPayload> {
     const { images, ...productProps } = updateProductDto;
     /** Preparamos para la actualizacion */
@@ -245,6 +253,7 @@ export class ProductsService {
         });
         find.images = oldImages;
       }
+      find.user = user;
       const result = await queryRunner.manager.save(find);
       await queryRunner.commitTransaction();
       /** Libera el query runner */
