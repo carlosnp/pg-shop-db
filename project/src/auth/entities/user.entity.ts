@@ -1,6 +1,6 @@
 import { BasicWithUuidEntity, generateSlug } from 'src/pg-shop';
 import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
-import { UserModel } from '../models';
+import { UserModel, UserRoles } from '../models';
 
 @Entity({ name: 'users' })
 export class User extends BasicWithUuidEntity implements UserModel {
@@ -22,7 +22,7 @@ export class User extends BasicWithUuidEntity implements UserModel {
   @Column({ type: 'bool', default: true })
   isActive: boolean;
 
-  @Column({ type: 'text', array: true, default: ['user'] })
+  @Column({ type: 'text', array: true })
   roles: string[];
   /**
    * Nombre completo
@@ -42,7 +42,10 @@ export class User extends BasicWithUuidEntity implements UserModel {
     this.firstName = this.firstName.toLowerCase().trim();
     this.lastName = this.lastName.toLowerCase().trim();
     /** Normaliza los roles */
-    const roles = this.roles.map((role) => generateSlug(role));
+    const roles =
+      this.roles && this.roles.length > 0
+        ? this.roles.map((role) => generateSlug(role))
+        : [UserRoles.USER];
     this.roles = [...new Set(roles)];
     /** Crea el campo fullName */
     this.fullName = `${this.firstName} ${this.lastName}`;

@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -106,17 +107,34 @@ export class AuthService {
     return { id: find.id, entity: find };
   }
   /**
+   * Crear usuario en base de datos
+   * @param {CreateUserDto} createUserDto
+   * @returns {Promise<User>}
+   */
+  private async createDB(createUserDto: CreateUserDto): Promise<User> {
+    const { password, ...userData } = createUserDto;
+    const build = this.userRepository.create({
+      ...userData,
+      password: this.encrypt(password),
+    });
+    const result = await this.userRepository.save(build);
+    return result;
+  }
+  /**
    * Crear usuario
    * @param {CreateUserDto} createUserDto
    * @returns {Promise<CreatedUserPayload>}
    */
   async create(createUserDto: CreateUserDto): Promise<CreatedUserPayload> {
     try {
-      const { password, ...userData } = createUserDto;
-      const build = this.userRepository.create({
-        ...userData,
-        password: this.encrypt(password),
-      });
+      const { email } = createUserDto;
+      const find = await this.userRepository.findOneBy({ email });
+      /** Verificamos si ya existe un usuario con ese correo */
+      if (find) {
+        const error = new ConflictException('User already exist');
+        return { error };
+      }
+      const build = await this.createDB(createUserDto);
       const result = await this.userRepository.save(build);
       this.logger.verbose('Usuario creado');
       return { id: result.id, entity: result };

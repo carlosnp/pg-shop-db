@@ -22,6 +22,7 @@ import {
   UpdateUserDto,
 } from './dto';
 import {
+  CreatedUserPayload,
   DeletedUserPayload,
   FindUserPayload,
   ListUserPayload,
@@ -152,7 +153,7 @@ export class AuthController {
    * @returns
    */
   @Post('register')
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body() createUserDto: CreateUserDto): Promise<CreatedUserPayload> {
     return this.authService.create(createUserDto);
   }
   /**

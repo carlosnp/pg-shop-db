@@ -2,6 +2,7 @@ import { CrudResponse, SearchResult } from 'src/pg-shop';
 import { User } from '../entities';
 import {
   BadRequestException,
+  ConflictException,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
@@ -22,7 +23,7 @@ export type ListUserPayload = SearchResult<User>;
 /**
  * Payload para crear
  */
-type CreatedError = CrudError;
+type CreatedError = CrudError | ConflictException;
 export type CreatedUserPayload = CrudResponse<User, CreatedError>;
 /**
  * Payload para actualizar
