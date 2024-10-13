@@ -9,16 +9,24 @@ import {
   ParseUUIDPipe,
   Query,
 } from '@nestjs/common';
+import { AuthComp, UserRoles } from '../auth';
+import { ComparisonOperator, PaginationDto } from '../pg-shop';
 import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { Product } from './entities';
-import { ComparisonOperator, PaginationDto } from 'src/pg-shop';
 import {
   CreatedPayload,
   DeletedPayload,
   ListPayload,
   UpdatedPayload,
 } from './payloads';
+
+const CREATE_UPDATE_ROLES: UserRoles[] = [
+  UserRoles.ROOT,
+  UserRoles.ADMIN,
+  UserRoles.DEVELOPER,
+  UserRoles.CONTRIBUTOR,
+];
 
 @Controller('products')
 export class ProductsController {
@@ -101,6 +109,7 @@ export class ProductsController {
    * @returns { Promise<CreatedPayload> } Producto
    */
   @Post()
+  @AuthComp(CREATE_UPDATE_ROLES, {})
   create(@Body() createProductDto: CreateProductDto): Promise<CreatedPayload> {
     return this.productsService.create(createProductDto);
   }
@@ -111,6 +120,7 @@ export class ProductsController {
    * @returns {Promise<Product>}
    */
   @Patch(':id')
+  @AuthComp(CREATE_UPDATE_ROLES, {})
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProductDto: UpdateProductDto,
@@ -123,6 +133,7 @@ export class ProductsController {
    * @returns {Promise<DeletedPayload>}
    */
   @Delete(':id')
+  @AuthComp([UserRoles.ROOT, UserRoles.ADMIN], { strictRole: true })
   remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeletedPayload> {
     return this.productsService.remove(id);
   }

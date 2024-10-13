@@ -10,7 +10,7 @@ import { ConfigAuth } from './config-auth.decorator';
  * @param {..UserRoles[]}roles roles
  */
 export function AuthComp(roles: UserRoles[], config?: ConfigAuthModel) {
-  const newConfig: ConfigAuthModel = config ? config : {};
+  const newConfig: ConfigAuthModel = config ? config : { strictRole: false };
   return applyDecorators(
     RoleProtected(...roles),
     ConfigAuth(newConfig),

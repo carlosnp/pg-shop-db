@@ -1,53 +1,63 @@
+@hostname = http://localhost
+@port = 3000
+@controller = products
+@hostBase = {{hostname}}:{{port}}/api
+@host = {{hostBase}}/{{controller}}
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFlNWRlYTQxLTFkNDQtNDk3NC1iMzBhLTJmOTU4MDFkMTkyZiIsImVtYWlsIjoicm9vdC5hZG1pbkBlbWFpbC5jb20iLCJmdWxsTmFtZSI6InJvb3QgYWRtaW4iLCJpYXQiOjE3Mjg4MjczNDIsImV4cCI6MTcyODgzNDU0Mn0.iTgrYWAKlGN3Tx4o261yQ7umFYT_CQEkIFkxmBMYIDA
+
+
+
 ### hello world
-GET http://localhost:3000/api
+GET {{hostBase}}
 
 ### Lista de productos
-GET http://localhost:3000/api/products
+GET {{host}}
 Content-Type: application/json
 
 ### Lista paginada de productos
-GET http://localhost:3000/api/products/pag?limit=2
+GET {{host}}/pag?limit=2
 Content-Type: application/json
 
 ### Lista filtrada de productos por titulo
-GET http://localhost:3000/api/products/by-title?name=queso
+GET {{host}}/by-title?name=queso
 Content-Type: application/json
 
 ### Lista filtrada de productos por precio
-GET http://localhost:3000/api/products/by-price?price=8&operator=GT
+GET {{host}}/by-price?price=8&operator=GT
 Content-Type: application/json
 
 ### Obtener un producto
-GET http://localhost:3000/api/products/16e16110-f44f-44f2-b1c0-5a97e9d8148c
+GET {{host}}/16e16110-f44f-44f2-b1c0-5a97e9d8148c
 Content-Type: application/json
 
 ### Obtener un producto por TERM: Uuid
-GET http://localhost:3000/api/products/term/a84af8af-54b9-4185-be9b-f5421a8e06d9
+GET {{host}}/term/a84af8af-54b9-4185-be9b-f5421a8e06d9
 Content-Type: application/json
 
 ### Obtener un producto por TERM: slug
-GET http://localhost:3000/api/products/term/queso_mozzarella
+GET {{host}}/term/queso_mozzarella
 Content-Type: application/json
 
 ### Obtener un producto por TEXTO: Uuid
-GET http://localhost:3000/api/products/text/a84af8af-54b9-4185-be9b-f5421a8e06d9
+GET {{host}}/text/a84af8af-54b9-4185-be9b-f5421a8e06d9
 Content-Type: application/json
 
 ### Obtener un producto por TEXTO: slug
-GET http://localhost:3000/api/products/text/queso_mozzarella
+GET {{host}}/text/queso_mozzarella
 Content-Type: application/json
 
 ### Obtener un producto por TEXTO: titulo
-GET http://localhost:3000/api/products/text/Queso telita
+GET {{host}}/text/Queso telita
 Content-Type: application/json
 
 ### Eliminar un producto
-DELETE  http://localhost:3000/api/products/be18e6c1-af8a-4016-ad0e-a57a0842148e
+DELETE  {{host}}/be18e6c1-af8a-4016-ad0e-a57a0842148e
 Content-Type: application/json
 
 ### Crear un producto
-POST http://localhost:3000/api/products
+POST {{host}}
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "name": "Queso duro llanero churro 9",
@@ -61,8 +71,9 @@ Content-Type: application/json
 }
 
 ### Actualizar un producto
-PATCH  http://localhost:3000/api/products/be18e6c1-af8a-4016-ad0e-a57a0842148e
+PATCH  {{host}}/be18e6c1-af8a-4016-ad0e-a57a0842148e
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "unit": "kg",
@@ -70,18 +81,30 @@ Content-Type: application/json
 }
 
 ### Actualizar un producto Error con el titulo
-PATCH  http://localhost:3000/api/products/a84af8af-54b9-4185-be9b-f5421a8e06d9
+PATCH  {{host}}/a84af8af-54b9-4185-be9b-f5421a8e06d9
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "title": "Queso telita"
 }
 
 ### Actualizar un producto: Agregar tag
-PATCH  http://localhost:3000/api/products/57003960-06f9-49f3-a15c-a29219f31cc9
+PATCH  {{host}}/4420a19a-f23a-4c81-b463-8c25f7ed62cc
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "tags": ["suave", "queso", "perro"],
   "stock": 10
+}
+
+### Iniciar sesión
+# @name login
+POST {{hostBase}}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "root.admin@email.com",
+  "password": "Carro12+"
 }
