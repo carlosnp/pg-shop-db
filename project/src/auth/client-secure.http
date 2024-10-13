@@ -16,18 +16,8 @@ GET {{host}}/private/user HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-### Ruta con decorador user
-GET {{host}}/private/decorator HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer {{token}}
-
 ### Ruta con decorador del header
 GET {{host}}/private/headers HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer {{token}}
-
-### Ruta con custom guard
-GET {{host}}/private/guard HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 

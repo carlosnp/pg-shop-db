@@ -7,11 +7,8 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
-  UseGuards,
   Headers,
-  SetMetadata,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import {
   AddRoleDto,
@@ -28,15 +25,9 @@ import {
   ListUserPayload,
   UpdatedUserPayload,
 } from './payloads';
-import {
-  AuthComp,
-  GetCustomUser,
-  RawHeaders,
-  RoleProtected,
-} from './decorators';
+import { AuthComp, GetCustomUser, RawHeaders } from './decorators';
 import { User } from './entities';
 import { IncomingHttpHeaders } from 'http';
-import { UserRoleGuard } from './guards';
 import { UserRoles } from './models';
 
 @Controller('auth')
@@ -47,6 +38,7 @@ export class AuthController {
    * @returns { Promise<ListUserPayload>}
    */
   @Get()
+  @AuthComp([UserRoles.ROOT, UserRoles.ADMIN], {})
   getAll(): Promise<ListUserPayload> {
     return this.authService.getAll();
   }
@@ -56,6 +48,7 @@ export class AuthController {
    * @returns {Promise<FindUserPayload>}
    */
   @Get(':id')
+  @AuthComp([], {})
   findById(@Param('id', ParseUUIDPipe) id: string): Promise<FindUserPayload> {
     return this.authService.findById(id);
   }
@@ -63,28 +56,15 @@ export class AuthController {
    * Ruta privada
    */
   @Get('private/user')
-  @UseGuards(AuthGuard())
+  @AuthComp([], {})
   testPrivate() {
     return 'Hola mundo';
-  }
-  /**
-   * Ruta con decorador custom para el usuario
-   */
-  @Get('private/decorator')
-  @UseGuards(AuthGuard())
-  customDecorator(
-    @GetCustomUser() user: User,
-    @GetCustomUser('email') userEmail: string,
-    @GetCustomUser(['phone', 'roles'])
-    items: { email: string; roles: string[] },
-  ) {
-    return { message: 'Hola mundo', user, userEmail, items };
   }
   /**
    * Ruta con decorador custom ara los headers
    */
   @Get('private/headers')
-  @UseGuards(AuthGuard())
+  @AuthComp([], {})
   rawHeaders(
     @RawHeaders() rawHeaders: string[],
     @Headers() headers: IncomingHttpHeaders,
@@ -92,28 +72,11 @@ export class AuthController {
     return { message: 'HEADERS del request', rawHeaders, headers };
   }
   /**
-   * Ruta con custom guard
-   * @param user
-   */
-  @Get('private/guard')
-  @SetMetadata('roles', ['root', 'admin'])
-  @UseGuards(AuthGuard(), UserRoleGuard)
-  customGuard(
-    @GetCustomUser(['phone', 'roles'])
-    user: {
-      email: string;
-      roles: string[];
-    },
-  ) {
-    return { message: 'Hola mundo', user };
-  }
-  /**
    * Ruta con custom decorator roles
    * @param user
    */
   @Get('private/roles')
-  @RoleProtected(UserRoles.ROOT, UserRoles.ROOT)
-  @UseGuards(AuthGuard(), UserRoleGuard)
+  @AuthComp([UserRoles.ROOT, UserRoles.ANALYST], { strictRole: true })
   customRoles(
     @GetCustomUser(['phone', 'roles'])
     user: {
@@ -173,6 +136,7 @@ export class AuthController {
    * @returns
    */
   @Patch(':id')
+  @AuthComp([], {})
   update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
@@ -186,6 +150,7 @@ export class AuthController {
    * @returns { Promise<UpdatedUserPayload> }
    */
   @Patch('status/:id')
+  @AuthComp([UserRoles.ROOT, UserRoles.ADMIN], {})
   changeStatus(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() input: ChangeStatusDto,
@@ -199,6 +164,7 @@ export class AuthController {
    * @returns { Promise<UpdatedUserPayload> }
    */
   @Patch('roles/add/:id')
+  @AuthComp([UserRoles.ROOT, UserRoles.ADMIN], {})
   addRole(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() input: AddRoleDto,
@@ -212,6 +178,7 @@ export class AuthController {
    * @returns { Promise<UpdatedUserPayload> }
    */
   @Patch('roles/:id')
+  @AuthComp([UserRoles.ROOT, UserRoles.ADMIN], {})
   changeRoles(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() input: ChangeRolesDto,
@@ -224,6 +191,7 @@ export class AuthController {
    * @returns {Promise<DeletedUserPayload>}
    */
   @Delete(':id')
+  @AuthComp([UserRoles.ROOT, UserRoles.ADMIN], {})
   remove(@Param('id', ParseUUIDPipe) id: string): Promise<DeletedUserPayload> {
     return this.authService.remove(id);
   }

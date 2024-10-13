@@ -2,19 +2,31 @@
 @port = 3000
 @controller = auth
 @host = {{hostname}}:{{port}}/api/{{controller}}
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE5NTA1ZjNjLWI5ZDYtNGIyNS05OWMxLTgzNjMxNjU2NTQ5ZCIsImVtYWlsIjoicm9vdC5hZG1pbkBlbWFpbC5jb20iLCJmdWxsTmFtZSI6InJvb3QgcGVuIDEyYXMiLCJpYXQiOjE3MjgwNzM5MjUsImV4cCI6MTcyODA4MTEyNX0.2I009qY0F9GjeIl34ubAG-NFiTYAwde-Sr8CNtTXqJc
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI0ZjZiNTA1LTAzZWItNDA5Zi04Nzg3LWZhNDg3MjViNTdjMyIsImVtYWlsIjoicm9vdC5hZG1pbkBlbWFpbC5jb20iLCJmdWxsTmFtZSI6InJvb3QgYWRtaW4iLCJpYXQiOjE3Mjg4NTg5MjMsImV4cCI6MTcyODg2NjEyM30.vllvLO6riipssSjktkrS_cTN6JLWnJF44AQt3IViQgQ
+@userID=ab32e5b0-ab4e-4db8-8049-4497ac43d13e
 
+### Iniciar sesión
+# @name login
+POST {{host}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "root.admin@email.com",
+  "password": "Carro12+"
+}
 
 ### Lista de usuarios
 # @name getAll
 GET {{host}} HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 
 ### Obtener un usuario
 # @name findById
-GET {{host}}/a9505f3c-b9d6-4b25-99c1-83631656549d HTTP/1.1
+GET {{host}}/{{userID}} HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 ### Crear usuario
 # @name createUser
@@ -32,11 +44,12 @@ Content-Type: application/json
 
 ### Actualizar usuario
 # @name update
-PATCH {{host}}/a9505f3c-b9d6-4b25-99c1-83631656549d HTTP/1.1
+PATCH {{host}}/{{userID}} HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "lastName": "pen 12as"
+  "lastName": "vader"
 }
 
 
@@ -44,11 +57,13 @@ Content-Type: application/json
 # @name remove
 DELETE {{host}}/55a1f7f3-1b8e-48dc-a190-45fd846640cf HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 
-### Cambiar el status del usuarioo
-PATCH {{host}}/status/a9505f3c-b9d6-4b25-99c1-83631656549d HTTP/1.1
+### Cambiar el status del usuario
+PATCH {{host}}/status/{{userID}} HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "isActive": "true"
@@ -57,8 +72,9 @@ Content-Type: application/json
 
 ### Cambiar roles del usuario
 # @name changeRoles
-PATCH {{host}}/roles/f2e8bbfc-61ad-4e58-b67f-39c9c7f57f16 HTTP/1.1
+PATCH {{host}}/roles/{{userID}} HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "roles": ["collaborator", "root", "admin"]
@@ -67,8 +83,9 @@ Content-Type: application/json
 
 ### Agregar un role al usuario
 # @name addRole
-PATCH {{host}}/roles/add/f2e8bbfc-61ad-4e58-b67f-39c9c7f57f16 HTTP/1.1
+PATCH {{host}}/roles/add/{{userID}} HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "role": "guest"

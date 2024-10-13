@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { CreatedPayload, ProductsService } from '../products';
+import { ProductsService } from '../products';
 import { AuthService, User } from '../auth';
 import { seedProducts, usersSeed } from './data';
 
@@ -44,6 +44,7 @@ export class SeedService {
       await this.productsService.removeAll(),
       await this.authService.removeAll(),
     ]);
+    this.logger.warn('Se elimino la base de datos');
     return result;
   }
   /**
@@ -52,7 +53,7 @@ export class SeedService {
   async runSeed() {
     await this.deleteTables();
     const usersSeed = await this.runSeedUsers();
-    const firstUser = usersSeed[0];
+    const firstUser = usersSeed.entities[0];
     const productsSeed = this.runSeedProducts(firstUser);
     this.logger.log('FINALIZO EL SEMILLERO');
     return { users: usersSeed, products: productsSeed };

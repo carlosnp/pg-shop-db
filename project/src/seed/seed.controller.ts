@@ -9,10 +9,6 @@ export class SeedController {
    * Ejecuta el seed
    */
   @Get()
-  runSeed() {
-    return this.seedService.runSeed();
-  }
-  @Get('private')
   @AuthComp([UserRoles.ROOT], {})
   runSeedSecure() {
     return this.seedService.runSeed();
