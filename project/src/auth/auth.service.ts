@@ -107,18 +107,17 @@ export class AuthService {
     return { id: find.id, entity: find };
   }
   /**
-   * Crear usuario en base de datos
+   * Prepara el usuario para crearlo en base de datos
    * @param {CreateUserDto} createUserDto
-   * @returns {Promise<User>}
+   * @returns {User}
    */
-  private async createDB(createUserDto: CreateUserDto): Promise<User> {
+  private prepareToCreate(createUserDto: CreateUserDto): User {
     const { password, ...userData } = createUserDto;
     const build = this.userRepository.create({
       ...userData,
       password: this.encrypt(password),
     });
-    const result = await this.userRepository.save(build);
-    return result;
+    return build;
   }
   /**
    * Crear usuario
@@ -134,7 +133,7 @@ export class AuthService {
         const error = new ConflictException('User already exist');
         return { error };
       }
-      const build = await this.createDB(createUserDto);
+      const build = this.prepareToCreate(createUserDto);
       const result = await this.userRepository.save(build);
       this.logger.verbose('Usuario creado');
       return { id: result.id, entity: result };
@@ -142,6 +141,37 @@ export class AuthService {
       const handlerError = this.handleDBExceptions(error);
       return { error: handlerError };
     }
+  }
+  /**
+   * Crea muchos usuarios
+   * @param {CreateUserDto[]} input Lista de usuarios
+   * @returns { Promise<User[]>}
+   */
+  async createMany(input: CreateUserDto[]): Promise<User[]> {
+    const seed = [...input];
+    const users: User[] = [];
+    seed.forEach((user) => {
+      const prepare = this.prepareToCreate(user);
+      users.push(prepare);
+    });
+    const result = await this.userRepository.save(users);
+    return result;
+  }
+  /**
+   * Crea los usuarios usando CREATE
+   * @param {CreateUserDto[]} input Lista de usuarios
+   */
+  async createManyValidate(input: CreateUserDto[]) {
+    const seed = [...input];
+    const insertP: Promise<CreatedUserPayload>[] = [];
+    seed.forEach((item) => {
+      const promise: Promise<CreatedUserPayload> = this.create(item);
+      insertP.push(promise);
+    });
+    const result = await Promise.all(insertP);
+    const entities = result.map((item) => item.entity).filter((item) => !!item);
+    const errors = result.filter((item) => !!item.error);
+    return { entities, errors };
   }
   /**
    * Actualizar Usuario

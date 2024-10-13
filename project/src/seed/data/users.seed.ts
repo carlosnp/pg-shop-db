@@ -1,4 +1,4 @@
-import { UserModelCreate } from 'src/auth';
+import { UserModelCreate, UserRoles } from 'src/auth';
 
 export const usersSeed: UserModelCreate[] = [
   {
@@ -7,7 +7,23 @@ export const usersSeed: UserModelCreate[] = [
     email: 'root.admin@email.com',
     phone: '04121234567',
     password: 'Carro12+',
-    roles: ['root', 'admin', 'user'],
+    roles: [UserRoles.ROOT, UserRoles.ADMIN],
+  },
+  {
+    firstName: 'coollaborator',
+    lastName: 'job',
+    email: 'coollaborator.job@email.com',
+    phone: '04121234567',
+    password: 'Carro12+',
+    roles: [UserRoles.COLLABORATOR],
+  },
+  {
+    firstName: 'developer',
+    lastName: 'master',
+    email: 'developer.master@email.com',
+    phone: '04121234567',
+    password: 'Carro12+',
+    roles: [UserRoles.DEVELOPER],
   },
   {
     firstName: 'jhon',
@@ -15,6 +31,20 @@ export const usersSeed: UserModelCreate[] = [
     email: 'jhon.down@email.com',
     phone: '04121234567',
     password: 'Carro12+',
-    roles: ['user'],
+  },
+  {
+    firstName: 'jhon',
+    lastName: 'down',
+    email: 'jhon.down@email.com',
+    phone: '04121234567',
+    password: 'Carro12+',
+  },
+  {
+    firstName: 'guest',
+    lastName: 'wild',
+    email: 'guest.wild@email.com',
+    phone: '04121234567',
+    password: 'Carro12+',
+    roles: [UserRoles.GUEST],
   },
 ];

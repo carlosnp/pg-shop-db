@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { DeleteResult } from 'typeorm';
 import { CreatedPayload, ProductsService } from '../products';
-import { AuthService, CreatedUserPayload } from '../auth';
+import { AuthService } from '../auth';
 import { seedProducts, usersSeed } from './data';
 
 @Injectable()
@@ -23,7 +22,6 @@ export class SeedService {
    * @returns
    */
   private async runSeedProducts() {
-    await this.deleteProductsDB();
     const products = [...seedProducts];
 
     const insertP: Promise<CreatedPayload>[] = [];
@@ -42,37 +40,29 @@ export class SeedService {
    * Semilla de usuarios
    */
   private async runSeedUsers() {
-    /** Elimiar los usuarios */
-    await this.authService.removeAll();
     const users = [...usersSeed];
-
-    const insertP: Promise<CreatedUserPayload>[] = [];
-    users.forEach((user) => {
-      const promise: Promise<CreatedUserPayload> =
-        this.authService.create(user);
-      insertP.push(promise);
-    });
-    const result = await Promise.all(insertP);
-    const entities = result.map((item) => item.entity);
-    const errors = result.filter((item) => !!item.error);
+    const result = await this.authService.createManyValidate(users);
     this.logger.log('Finalizo la carga de usuarios');
-    return { entities, errors };
+    return result;
   }
   /**
    * Ejecuta el seed
    */
   async runSeed() {
-    const productsSeed = this.runSeedProducts();
-    const usersSeed = this.runSeedUsers();
+    await this.deleteTables();
+    const usersSeed = await this.runSeedUsers();
+    // const productsSeed = this.runSeedProducts();
     this.logger.log('FINALIZO EL SEMILLERO');
-    return { productsSeed, usersSeed };
+    return { usersSeed };
   }
   /**
-   * Elimina los productos
-   * @returns {Promise<DeleteResult>}
+   * Elimina la base de datos en orden
    */
-  async deleteProductsDB(): Promise<DeleteResult> {
-    const remove = await this.productsService.removeAll();
-    return remove;
+  async deleteTables() {
+    const result = await Promise.all([
+      await this.productsService.removeAll(),
+      await this.authService.removeAll(),
+    ]);
+    return result;
   }
 }
