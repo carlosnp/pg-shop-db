@@ -68,15 +68,8 @@ export class AuthService {
     const list = await this.userRepository.find();
     const total = list.length;
     const result: ListUserPayload = { total, list };
-    this.logger.log('Productos listados');
+    this.logger.log('Usuarios listados');
     return result;
-  }
-  findAll() {
-    return `This action returns all auth`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
   }
   /**
    * Encontrar usuario por id
@@ -274,7 +267,7 @@ export class AuthService {
       return { error: find.error };
     }
     const result = await this.userRepository.remove(find.entity);
-    this.logger.log('Producto eliminado');
+    this.logger.log('Usuario eliminado');
     return result;
   }
   /**
@@ -309,12 +302,28 @@ export class AuthService {
     if (!user || !this.validEncrypt(password, user.password)) {
       throw new UnauthorizedException('Credentials are not valid');
     }
+    const fullName = `${user.firstName} ${user.lastName}`;
     const token = this.getJwtToken({
       id: user.id,
       email: user.email,
-      fullName: `${user.firstName} ${user.lastName}`,
+      fullName: fullName,
     });
-    return { id: user.id, email: user.email, token };
+    this.logger.log(`Usuario inicio sesión: ${fullName}`);
+    return { id: user.id, token, fullName };
+  }
+  /**
+   * Refrescar token
+   * @param {User} user usuario
+   */
+  async refreshToken(user: User) {
+    const fullName = `${user.firstName} ${user.lastName}`;
+    const token = this.getJwtToken({
+      id: user.id,
+      email: user.email,
+      fullName: fullName,
+    });
+    this.logger.log(`Usuario renovo token: ${fullName.toUpperCase()}`);
+    return { id: user.id, token, fullName };
   }
   /**
    * Compara una valor contra un valor encriptado
@@ -344,7 +353,7 @@ export class AuthService {
    */
   private getJwtToken(payload: JwtPayload): string {
     const token = this.jwtService.sign(payload);
-    console.log('token', token);
+    // console.log('token', token);
     return token;
   }
   /**

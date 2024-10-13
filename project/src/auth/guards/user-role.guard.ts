@@ -54,16 +54,18 @@ export class UserRoleGuard implements CanActivate {
       META_CONFIG,
       context.getHandler(),
     );
-    console.log(JSON.stringify(config, null, 2));
     /** Verificar Si se especifican roles */
     if (!validRoles || validRoles.length === 0) {
+      this.logger.log('Approved user');
       return true;
     }
     const req = context.switchToHttp().getRequest();
     const user = req.user as User;
     /** Verificar si existe el usuario */
     if (!user) {
-      throw new InternalServerErrorException('User not found (guard)');
+      const error = new InternalServerErrorException('User not found (guard)');
+      this.logger.error(error);
+      throw error;
     }
     const condition = config.strictRole
       ? includesAll(user.roles, validRoles)
@@ -75,6 +77,11 @@ export class UserRoleGuard implements CanActivate {
       );
       this.logger.error(error);
       throw error;
+    }
+    if (condition) {
+      this.logger.log('Approved user');
+    } else {
+      this.logger.log('Unapproved user');
     }
     return condition;
   }

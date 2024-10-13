@@ -139,6 +139,16 @@ export class AuthController {
     return { message: 'Hola mundo', user };
   }
   /**
+   * Refresca el toekn
+   * @param {User} user usuario
+   * @returns
+   */
+  @Get('private/refresh')
+  @AuthComp([], {})
+  refreshToken(@GetCustomUser() user: User) {
+    return this.authService.refreshToken(user);
+  }
+  /**
    * Iniciar sesión
    * @param {LoginDto} loginDto
    * @returns
