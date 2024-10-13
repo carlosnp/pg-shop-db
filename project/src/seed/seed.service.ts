@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CreatedPayload, ProductsService } from '../products';
-import { AuthService } from '../auth';
+import { AuthService, User } from '../auth';
 import { seedProducts, usersSeed } from './data';
 
 @Injectable()
@@ -21,20 +21,11 @@ export class SeedService {
    * Semilla de productos
    * @returns
    */
-  private async runSeedProducts() {
+  private async runSeedProducts(user: User) {
     const products = [...seedProducts];
-
-    const insertP: Promise<CreatedPayload>[] = [];
-    // products.forEach((product) => {
-    //   const promise: Promise<CreatedPayload> =
-    //     this.productsService.create(product);
-    //   insertP.push(promise);
-    // });
-    const result = await Promise.all(insertP);
-    const entities = result.map((item) => item.entity);
-    const errors = result.filter((item) => !!item.error);
-    this.logger.log('Finalizo la carga de Productos');
-    return { entities, errors };
+    const resutl = await this.productsService.createMany(products, user);
+    this.logger.log('Finalizo la carga de productos');
+    return resutl;
   }
   /**
    * Semilla de usuarios
@@ -46,23 +37,24 @@ export class SeedService {
     return result;
   }
   /**
-   * Ejecuta el seed
-   */
-  async runSeed() {
-    await this.deleteTables();
-    const usersSeed = await this.runSeedUsers();
-    // const productsSeed = this.runSeedProducts();
-    this.logger.log('FINALIZO EL SEMILLERO');
-    return { usersSeed };
-  }
-  /**
    * Elimina la base de datos en orden
    */
-  async deleteTables() {
+  private async deleteTables() {
     const result = await Promise.all([
       await this.productsService.removeAll(),
       await this.authService.removeAll(),
     ]);
     return result;
+  }
+  /**
+   * Ejecuta el seed
+   */
+  async runSeed() {
+    await this.deleteTables();
+    const usersSeed = await this.runSeedUsers();
+    const firstUser = usersSeed[0];
+    const productsSeed = this.runSeedProducts(firstUser);
+    this.logger.log('FINALIZO EL SEMILLERO');
+    return { users: usersSeed, products: productsSeed };
   }
 }

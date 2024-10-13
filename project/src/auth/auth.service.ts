@@ -170,7 +170,7 @@ export class AuthService {
     });
     const result = await Promise.all(insertP);
     const entities = result.map((item) => item.entity).filter((item) => !!item);
-    const errors = result.filter((item) => !!item.error);
+    const errors = result.map((item) => item.error).filter((item) => !!item);
     return { entities, errors };
   }
   /**

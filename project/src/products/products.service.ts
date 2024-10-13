@@ -183,25 +183,33 @@ export class ProductsService {
     return find;
   }
   /**
-   * Crear un producto
+   * Prepara el producto para crearlo en base de datos
    * @param {CreateProductDto} createProductDto
+   * @param {User} user Usuario
+   * @returns {Product}
+   */
+  private prepareToCreate(input: CreateProductDto, user: User): Product {
+    const { images = [], ...productProps } = input;
+    /** Creamos el producto */
+    const build = this.productRepository.create({
+      ...productProps,
+      user: user,
+      images: images.map((img) =>
+        this.productImageRepository.create({ url: img }),
+      ),
+    });
+    return build;
+  }
+  /**
+   * Crear un producto
+   * @param {input} createProductDto
    * @param {User} user Usuario
    * @returns {Promise<Product>} Producto
    */
-  async create(
-    createProductDto: CreateProductDto,
-    user: User,
-  ): Promise<CreatedPayload> {
+  async create(input: CreateProductDto, user: User): Promise<CreatedPayload> {
     try {
-      const { images = [], ...productProps } = createProductDto;
       /** Creamos el producto */
-      const product = this.productRepository.create({
-        ...productProps,
-        user: user,
-        images: images.map((img) =>
-          this.productImageRepository.create({ url: img }),
-        ),
-      });
+      const product = this.prepareToCreate(input, user);
       /** Guardamos el producto */
       const result = await this.productRepository.save(product);
       this.logger.verbose('Producto creado');
@@ -210,6 +218,23 @@ export class ProductsService {
       const handlerError = this.handleDBExceptions(error);
       return { error: handlerError };
     }
+  }
+  /**
+   * Crea muchos productos
+   * @param {CreateProductDto[]} input Lista de productos
+   * @param {User} user Usuario
+   */
+  async createMany(input: CreateProductDto[], user: User) {
+    const seed = [...input];
+    const insertP: Promise<CreatedPayload>[] = [];
+    seed.forEach((item) => {
+      const promise: Promise<CreatedPayload> = this.create(item, user);
+      insertP.push(promise);
+    });
+    const result = await Promise.all(insertP);
+    const entities = result.map((item) => item.entity).filter((item) => !!item);
+    const errors = result.map((item) => item.error).filter((item) => !!item);
+    return { entities, errors };
   }
   /**
    * Actualizar un producto

@@ -33,13 +33,6 @@ export const usersSeed: UserModelCreate[] = [
     password: 'Carro12+',
   },
   {
-    firstName: 'jhon',
-    lastName: 'down',
-    email: 'jhon.down@email.com',
-    phone: '04121234567',
-    password: 'Carro12+',
-  },
-  {
     firstName: 'guest',
     lastName: 'wild',
     email: 'guest.wild@email.com',
