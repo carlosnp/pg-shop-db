@@ -27,7 +27,12 @@ import {
   ListUserPayload,
   UpdatedUserPayload,
 } from './payloads';
-import { AuthComp, GetCustomUser, RawHeaders, RoleProtected } from './decorators';
+import {
+  AuthComp,
+  GetCustomUser,
+  RawHeaders,
+  RoleProtected,
+} from './decorators';
 import { User } from './entities';
 import { IncomingHttpHeaders } from 'http';
 import { UserRoleGuard } from './guards';
@@ -122,7 +127,7 @@ export class AuthController {
    * @param user
    */
   @Get('private/composition')
-  @AuthComp(UserRoles.ROOT, UserRoles.ADMIN)
+  @AuthComp([UserRoles.ROOT, UserRoles.ANALYST], { strictRole: true })
   compositionDecorators(
     @GetCustomUser(['phone', 'roles'])
     user: {

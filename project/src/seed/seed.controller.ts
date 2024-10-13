@@ -13,7 +13,7 @@ export class SeedController {
     return this.seedService.runSeed();
   }
   @Get('private')
-  @AuthComp(UserRoles.ROOT)
+  @AuthComp([UserRoles.ROOT], {})
   runSeedSecure() {
     return this.seedService.runSeed();
   }

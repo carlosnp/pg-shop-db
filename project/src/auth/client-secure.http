@@ -2,7 +2,7 @@
 @port = 3000
 @controller = auth
 @host = {{hostname}}:{{port}}/api/{{controller}}
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE5NTA1ZjNjLWI5ZDYtNGIyNS05OWMxLTgzNjMxNjU2NTQ5ZCIsImVtYWlsIjoicm9vdC5hZG1pbkBlbWFpbC5jb20iLCJmdWxsTmFtZSI6InJvb3QgcGVuIDEyYXMiLCJpYXQiOjE3MjgzMDE3OTMsImV4cCI6MTcyODMwODk5M30.U25ZXw_umfrLGXmb94QTIVYtLvgoGP7-_QSfldMoOaw
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFlNWRlYTQxLTFkNDQtNDk3NC1iMzBhLTJmOTU4MDFkMTkyZiIsImVtYWlsIjoicm9vdC5hZG1pbkBlbWFpbC5jb20iLCJmdWxsTmFtZSI6InJvb3QgYWRtaW4iLCJpYXQiOjE3Mjg4MjYwMDEsImV4cCI6MTcyODgzMzIwMX0.fJWNK0LfgqGq_hvzYmDMqscBVl76MGZDq5iFEc8B1Vk
 @userId=a9505f3c-b9d6-4b25-99c1-83631656549d
 
 ### Obtener un usuario
