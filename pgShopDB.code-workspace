@@ -24,12 +24,5 @@
 		"[json]": {
 			"editor.tabSize": 2,
     },
-    "exportall.config.folderListener": [
-      "/project/src/products",
-      "/project/src/products/entities"
-    ],
-    "exportall.config.relExclusion": [
-      "/project/src/auth/dto/base.dto.ts"
-    ],
 	}
 }
