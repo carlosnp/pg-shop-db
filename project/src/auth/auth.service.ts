@@ -12,7 +12,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { DataSource, DeleteResult, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto, LoginDto, UpdateUserDto } from './dto';
+import { CreateUserDto, LoginDto, UpdateUserDto, UserResponseDto } from './dto';
 import { User } from './entities';
 import {
   CreatedUserPayload,
@@ -22,6 +22,7 @@ import {
   UpdatedUserPayload,
 } from './payloads';
 import { JwtPayload } from './models';
+import { getFullName } from './helpers';
 
 @Injectable()
 export class AuthService {
@@ -302,28 +303,33 @@ export class AuthService {
     if (!user || !this.validEncrypt(password, user.password)) {
       throw new UnauthorizedException('Credentials are not valid');
     }
-    const fullName = `${user.firstName} ${user.lastName}`;
-    const token = this.getJwtToken({
-      id: user.id,
-      email: user.email,
-      fullName: fullName,
-    });
-    this.logger.log(`Usuario inicio sesión: ${fullName}`);
-    return { id: user.id, token, fullName };
+    const result = this.getToken(user);
+    this.logger.log(`Usuario inicio sesión: ${result.fullName}`);
+    return result;
   }
   /**
    * Refrescar token
    * @param {User} user usuario
    */
   async refreshToken(user: User) {
-    const fullName = `${user.firstName} ${user.lastName}`;
+    const result = this.getToken(user);
+    this.logger.log(`Usuario renovo token: ${result.fullName.toUpperCase()}`);
+    return result;
+  }
+  /**
+   * obtiene el token
+   * @param {User} user usuario
+   * @returns
+   */
+  private getToken(user: User) {
+    const fullName = getFullName(user);
     const token = this.getJwtToken({
       id: user.id,
       email: user.email,
       fullName: fullName,
     });
-    this.logger.log(`Usuario renovo token: ${fullName.toUpperCase()}`);
-    return { id: user.id, token, fullName };
+    const result = new UserResponseDto(user, token);
+    return result;
   }
   /**
    * Compara una valor contra un valor encriptado
